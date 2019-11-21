@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 import Sidebar from './Sidebar';
-import {Nav, Button, Card, ListGroup, Table} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
-import web3 from '../service/web3';
-import sertifikatContract from '../service/Sertifikat';
-class Sertifikat extends Component{
+import {Nav, Button, Card, Table} from 'react-bootstrap';
+import controller from '../controller/SertifikatController';
 
+class Sertifikat extends Component{
 
     constructor(props){
       super(props)
@@ -14,38 +12,20 @@ class Sertifikat extends Component{
       }
     }
 
-    upload(e){
+    linkToUpload(e){
       window.location.href="/upload"
     }
 
      componentDidMount(){
-      sertifikatContract.getPastEvents(
-        'HashAdded', 
-        {
-          fromBlock: 0, 
-          toBlock : 'latest'
-        },
-        (err, events)=> {
-          console.log('events',events.reverse())
+      controller.getPastEvents().then((events)=> {
+        console.log(events)
           this.setState({
-            logEvents: events
+            logEvents: events.reverse()
           })
              
         })
      }
 
-    convertToDate(date){
-      var date = new Date(date * 1000),
-      datevalues = {
-        'year': date.getFullYear(),
-        'month': date.getMonth()+1,
-        'date': date.getDate(),
-        'hour': date.getHours(),
-        'minute': date.getMinutes(),
-        'second': date.getSeconds(),
-      };
-      return datevalues
-    }
     render(){
       return (
         <div className="d-flex" id="wrapper">
@@ -57,7 +37,7 @@ class Sertifikat extends Component{
               <Button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
               </Button> */}
-                <Button onClick={this.upload} className="btn-label-upload"><i className="fa fa-plus-circle fa-lg" aria-hidden="true"></i> Upload Sertifikat</Button>
+                <Button onClick={this.linkToUpload} className="btn-label-upload"><i className="fa fa-plus-circle fa-lg" aria-hidden="true"></i> Upload Sertifikat</Button>
                 
             </Nav>
 
@@ -68,27 +48,6 @@ class Sertifikat extends Component{
                     <div className="col-md-4" key={data.id}>
                     <Card border="primary" style={{ width: '21rem'}}>
                     <Card.Header>{data.returnValues.nomorSertifikat}</Card.Header>
-                      {/* <ListGroup variant="flush">
-                        
-                        <ListGroup.Item>
-                          <span >Nama Peserta</span>
-                          <span >&nbsp; : &nbsp;</span>
-                          <span >{data.returnValues.nama}</span>
-                        </ListGroup.Item>
-
-                        <ListGroup.Item>
-                          <span >Tx.Hash</span>
-                          <span >:</span>
-                          <span >{data.transactionHash}</span>
-                        </ListGroup.Item>
-
-                        <ListGroup.Item>
-                          <span >Block Number</span>
-                          <span >:</span>
-                          <span >{data.blockNumber}</span>
-                        </ListGroup.Item>
-
-                      </ListGroup>  */}
                        <Table className="table-responsive">
                         <tbody>
                           <tr>

@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import Login from './view/Login';
 import Verifikasi from './view/Verifikasi';
 import Sertifikat from './view/Sertifikat';
 import Upload from './view/Upload';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-
 
 function App() {
   return (

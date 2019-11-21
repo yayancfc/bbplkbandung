@@ -21,7 +21,7 @@ class Verifikasi extends Component {
 
   }
 
-  openUpload = (e) => {
+  handleOpenUpload = (e) => {
     controller.openUpload()
   }
 
@@ -31,7 +31,7 @@ class Verifikasi extends Component {
     })
   }
 
-  verifyByNoSertifikat = () => {
+  handleVerifyByNoSertifikat = () => {
     const nomor = this.state.nomor.toUpperCase()
     
     this.setState({
@@ -50,14 +50,14 @@ class Verifikasi extends Component {
     })
   }
 
-  verifyBYChecksum = (e) => {
+  handleVerifyBYChecksum = (e) => {
     e.stopPropagation();
 
     this.setState({
       isLoading: true
     })
 
-    controller.getnerateChecksum(e, file => {
+    controller.generateChecksum(e, file => {
       this.convertToBuffer(file);
     })
   }
@@ -65,7 +65,9 @@ class Verifikasi extends Component {
   convertToBuffer = async(reader) => {
     if (reader.result) {
       const bufferArray = await Buffer.from(reader.result);
+
       console.log(bufferArray,'zzz')
+
       this.setState({
           checksum: sha256(controller.arrayBufferToWordArray(bufferArray)).toString()
       })      
@@ -83,7 +85,7 @@ class Verifikasi extends Component {
     }
   }
 
-  lihatSertifikat = (e) => {
+  handleLihatSertifikat = (e) => {
     e.preventDefault()
     const hash = this.state.ipfsHash
     console.log(hash)
@@ -110,7 +112,7 @@ class Verifikasi extends Component {
                 <input type="text" className="form-control form-no" placeholder="Masukan Nomor Sertifikat" onChange={this.handleNomor} value={this.state.nomor}/>
               </div>
               <div className="col-md-auto">
-                <button type="button" className="btn btn-primary btn-ver" onClick={this.verifyByNoSertifikat}>Verifikasi</button>
+                <button type="button" className="btn btn-primary btn-ver" onClick={this.handleVerifyByNoSertifikat}>Verifikasi</button>
               </div>
             </div>
           </form>
@@ -118,8 +120,8 @@ class Verifikasi extends Component {
 
           <div className="container">
             <form>    
-                  <input id="upload" type="file" onChange={this.verifyBYChecksum}/>
-                  <a href="#" id="upload_link" onClick={this.openUpload} style={{marginLeft:'2.5rem'}}>
+                  <input id="upload" type="file" onChange={this.handleVerifyBYChecksum}/>
+                  <a href="#" id="upload_link" onClick={this.handleOpenUpload} style={{marginLeft:'2.5rem'}}>
                     Upload Sertifikat</a>​ ( Alternatif Verifikasi Menggunakan File Sertifikat )
             </form>
           </div>
@@ -134,7 +136,7 @@ class Verifikasi extends Component {
             <div className="form-row justify-content-md-center valid-form">
             <label className="valid">{this.state.validSertifikat? 'Sertifikat Valid' : 'Sertifikat Tidak Valid'}</label>
             <i className={this.state.validSertifikat? 'fa fa-check-circle fa-2x logo-ver' : 'fa fa-times-circle fa-2x logo-ver'} aria-hidden="true"></i>
-            {this.state.validSertifikat? <Button className="btn-lihat" style={{marginLeft:'1rem'}} onClick={this.lihatSertifikat}>Lihat Sertifikat</Button> : null }
+            {this.state.validSertifikat? <Button className="btn-lihat" style={{marginLeft:'1rem'}} onClick={this.handleLihatSertifikat}>Lihat Sertifikat</Button> : null }
               </div>
             </div>
           :null}

@@ -26,7 +26,7 @@ class Controller extends Component{
         return CryptoJS.lib.WordArray.create(a, i8a.length);
     }
 
-    getnerateChecksum = (e, cb) => {
+    generateChecksum = (e, cb) => {
         const file = e.target.files[0];
         let reader = new window.FileReader();
         reader.readAsArrayBuffer(file);

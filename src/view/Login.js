@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Form, Button} from 'react-bootstrap';
-import axios from 'axios';
 import bglogin from '../image/login.svg';
 import controller from '../controller/LoginController';
 class Admin extends Component{
@@ -13,7 +12,7 @@ class Admin extends Component{
         password: ''
       }
 
-      this.login = this.login.bind(this)
+      this.handleLogin = this.handleLogin.bind(this)
 
     }
 
@@ -38,7 +37,7 @@ class Admin extends Component{
       })
     }
 
-    login(e){
+    handleLogin(e){
       e.preventDefault();
       
       const username = this.state.username
@@ -69,7 +68,7 @@ class Admin extends Component{
           <div className="image">
               <img src={bglogin} alt="" className="bgLogin"/>
           </div>
-              <Form onSubmit={this.login} method="post" className="form-container">
+              <Form onSubmit={this.handleLogin} method="post" className="form-container">
                 <Form.Group>
                   <Form.Label>Username</Form.Label>
                   <Form.Control type="text" placeholder="Username" name="username" value={this.state.username} onChange={this.handleUsername}/>
