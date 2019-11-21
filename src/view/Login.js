@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Form, Button} from 'react-bootstrap';
 import axios from 'axios';
 import bglogin from '../image/login.svg';
-
+import controller from '../controller/LoginController';
 class Admin extends Component{
 
     constructor(props){
@@ -18,26 +18,10 @@ class Admin extends Component{
     }
 
     componentDidMount(){
-      const token = this.getCookie('bbplkbandung.token')
+      const token = controller.getCookie('bbplkbandung.token')
       if(token){
         window.location.href="/sertifikat"
       }
-    }
-
-    getCookie(cname) {
-      var name = cname + "=";
-      var decodedCookie = decodeURIComponent(document.cookie);
-      var ca = decodedCookie.split(';');
-      for(var i = 0; i <ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') {
-          c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-          return c.substring(name.length, c.length);
-        }
-      }
-      return "";
     }
 
     handleUsername = (e) => {
@@ -60,19 +44,11 @@ class Admin extends Component{
       const username = this.state.username
       const password = this.state.password
       const data = JSON.stringify({
-        'username': username,
+        'use  rname': username,
         'password': password
       })
 
-      axios.post(
-        'http://localhost/bbplkbandung/backend/api/LoginController.php',
-        data,
-        {
-          withCredentials: true,
-          crossdomain: true
-        }
-        
-      ).then(function (response) {
+      controller.getLogin(data).then(function (response) {
             if(response){
               document.cookie = `bbplkbandung.token=${response.data.token}`
               window.location.href='/sertifikat'

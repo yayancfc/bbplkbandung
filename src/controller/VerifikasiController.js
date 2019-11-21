@@ -32,7 +32,10 @@ class Controller extends Component{
         reader.readAsArrayBuffer(file);
         reader.onloadend = () => cb(reader)
     }
-    
+
+    lihatSertifikat = (hash) => {
+      window.location.href = 'https://gateway.ipfs.io/ipfs/'+hash
+    }    
 
 }
 

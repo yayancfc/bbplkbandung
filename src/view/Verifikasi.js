@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import './App.css';
+
 import {Button} from 'react-bootstrap';
-import bbplk from './image/bbplklogo.svg';
+import bbplk from '../image/bbplklogo.svg';
 import sha256 from 'crypto-js/sha256';
 import Loading from 'react-loading';
-import controller from './controller/Controller'
+import controller from '../controller/VerifikasiController'
 
 class Verifikasi extends Component {
 
@@ -76,19 +76,21 @@ class Verifikasi extends Component {
         this.setState({
           isLoading: false,
           isValid: true,
-          validSertifikat: response[4]
-        })
-    })
+          validSertifikat: response[4],  
+          ipfsHash: response[1]
+          })
+      })
+    }
   }
-}
 
   lihatSertifikat = (e) => {
     e.preventDefault()
     const hash = this.state.ipfsHash
-    window.location.href = 'https://gateway.ipfs.io/ipfs/'+hash
+    console.log(hash)
+    controller.lihatSertifikat(hash)
   }
 
-  render(){
+  render(){ 
     return (
     
       <div className=" border-right ver" id="sidebar-wrapper">
