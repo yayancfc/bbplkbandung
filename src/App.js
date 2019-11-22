@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import Login from './view/Login';
-import Verifikasi from './view/Verifikasi';
-import Sertifikat from './view/Sertifikat';
-import Upload from './view/Upload';
+import Login from './view/LoginUI';
+import Verifikasi from './view/VerifikasiUI';
+import Sertifikat from './view/SertifikatUI';
+import Upload from './view/UploadUI';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 function App() {

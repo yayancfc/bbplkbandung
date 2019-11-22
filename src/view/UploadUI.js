@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Sidebar from './Sidebar';
+import Sidebar from './SidebarUI';
 import {Nav, Button, Form} from 'react-bootstrap';
 import sha256 from 'crypto-js/sha256';
 import controller from '../controller/SertifikatController';

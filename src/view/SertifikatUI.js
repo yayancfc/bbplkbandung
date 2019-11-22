@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Sidebar from './Sidebar';
+import Sidebar from './SidebarUI';
 import {Nav, Button, Card, Table} from 'react-bootstrap';
 import controller from '../controller/SertifikatController';
 
