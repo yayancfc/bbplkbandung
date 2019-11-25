@@ -168,10 +168,6 @@ button {
   width: 19.2rem;
 }
 
-.btn-lihat-admin{
-  width: 19.2rem;
-}
-
 .btn-label-upload{
   margin-left: auto !important;
 }
@@ -199,4 +195,16 @@ button {
   color: black;
   background-color: red;
   font-weight: bold;
+}
+
+.border-primary{
+  height: 55vh !important;
+  margin-bottom: 1rem;
+}
+
+
+.btn-lihat-admin{
+  width: 19.2rem;
+  position: absolute;
+  bottom: 2.5rem;
 }

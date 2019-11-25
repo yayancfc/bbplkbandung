@@ -74,9 +74,7 @@ class Admin extends Component{
         }).then(function(error){
               console.log('error',error)
         })
-
       }
-
     }
 
     render(){

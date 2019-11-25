@@ -8,7 +8,10 @@ class Sertifikat extends Component{
     constructor(props){
       super(props)
       this.state = {
-        logEvents: []
+        logEvents: [],
+        currentSlice: 0,
+        totalPage: 0,
+        itemPerPage: 5
       }
     }
 
@@ -19,8 +22,11 @@ class Sertifikat extends Component{
      componentDidMount(){
       controller.getPastEvents().then((events)=> {
         console.log(events)
+        console.log(events.length, events.length/this.state.itemPerPage, 'asasas')
           this.setState({
-            logEvents: events.reverse()
+            totalPage: Math.ceil(events.length/this.state.itemPerPage),
+            // totalPage: events.length < this.state.itemPerPage? 1 : Math.ceil(events.length/this.state.itemPerPage),
+            logEvents: events
           })
              
         })
@@ -43,7 +49,7 @@ class Sertifikat extends Component{
 
             <div className="row" style={{margin:'2rem'}}>
               
-              {this.state.logEvents.map(data => {
+              {this.state.logEvents.slice(this.state.currentSlice, this.state.currentSlice+this.state.itemPerPage).map(data => {
                   return (
                     <div className="col-md-4" key={data.id}>
                     <Card border="primary" style={{ width: '21rem'}}>
@@ -88,7 +94,18 @@ class Sertifikat extends Component{
               })}         
 
             </div>
-
+            {/* {Array(this.state.totalPage > 1 ? this.state.totalPage + 1: this.state.totalPage).fill().map((_, i) =>  { */}
+            {Array(this.state.totalPage).fill().map((_, i) =>  {
+              
+                return (
+                <Button onClick={() => {
+                  this.setState({
+                    currentSlice: i * this.state.itemPerPage
+                  })
+                }}>{i === 0 ? 1 : i+1}</Button>
+              )}
+            )}
+            
           </div>
         </div>
       );
