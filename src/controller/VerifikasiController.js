@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import sertifikatContract from '../service/Sertifikat';
 import CryptoJS from 'crypto-js';
+import { isNull } from 'util';
 
 class Controller extends Component{
     
@@ -36,6 +37,12 @@ class Controller extends Component{
     lihatSertifikat = (hash) => {
       window.location.href = 'https://gateway.ipfs.io/ipfs/'+hash
     }    
+
+    validate = (nomor) => {
+      if(nomor==""){
+        console.log("kosong")
+      }
+    }
 
 }
 

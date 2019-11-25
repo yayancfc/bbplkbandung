@@ -33,6 +33,7 @@ class Verifikasi extends Component {
 
   handleVerifyByNoSertifikat = () => {
     const nomor = this.state.nomor.toUpperCase()
+    //controller.validate(nomor)
     
     this.setState({
       isLoading: true
