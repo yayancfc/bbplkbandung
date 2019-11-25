@@ -183,3 +183,9 @@ button {
 .logo-back{
   margin-right: 0.5rem;
 }
+
+.isi{
+  margin-left: 3.3rem;
+  color: red;
+  font-weight: bold;
+}

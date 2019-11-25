@@ -40,7 +40,9 @@ class Controller extends Component{
 
     validate = (nomor) => {
       if(nomor==""){
-        console.log("kosong")
+        return false;
+      }else{
+        return true
       }
     }
 

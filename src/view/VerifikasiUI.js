@@ -17,6 +17,7 @@ class Verifikasi extends Component {
       validSertifikat: false,
       isLoading: false,
       isValid: false,
+      isEmpty: true
     }
 
   }
@@ -33,29 +34,39 @@ class Verifikasi extends Component {
 
   handleVerifyByNoSertifikat = () => {
     const nomor = this.state.nomor.toUpperCase()
-    //controller.validate(nomor)
-    
+    const isi = controller.validate(nomor) 
     this.setState({
-      isLoading: true
+      isEmpty: isi,
+      isValid: false
     })
+    if(isi===false){
+      console.log("kosong")
+    }else{
+      this.setState({
+        isLoading: true
+      })
+      
+      controller.verifyByNoSertifikat(nomor).then((response) => {
+          console.log(response)
+          this.setState({
+            isLoading: false,
+            isValid: true,
+            validSertifikat: response[4],
+            ipfsHash: response[1]
+          })
+          
+      })
+  
+    }
     
-    controller.verifyByNoSertifikat(nomor).then((response) => {
-        console.log(response)
-        this.setState({
-          isLoading: false,
-          isValid: true,
-          validSertifikat: response[4],
-          ipfsHash: response[1]
-        })
-        
-    })
   }
 
   handleVerifyBYChecksum = (e) => {
     e.stopPropagation();
 
     this.setState({
-      isLoading: true
+      isLoading: true,
+      isValid: false
     })
 
     controller.generateChecksum(e, file => {
@@ -115,9 +126,14 @@ class Verifikasi extends Component {
               <div className="col-md-auto">
                 <button type="button" className="btn btn-primary btn-ver" onClick={this.handleVerifyByNoSertifikat}>Verifikasi</button>
               </div>
+
             </div>
           </form>
           </div>
+          {
+            !this.state.isEmpty? <span className="isi">* Nomor Sertifikat Belum Diisi</span> : null
+          }
+
 
           <div className="container">
             <form>    
@@ -132,7 +148,7 @@ class Verifikasi extends Component {
           </div>
           : null}
 
-          {this.state.isValid? 
+          {this.state.isValid? this.state.isEmpty?
             <div className="container">
             <div className="form-row justify-content-md-center valid-form">
             <label className="valid">{this.state.validSertifikat? 'Sertifikat Valid' : 'Sertifikat Tidak Valid'}</label>
@@ -140,7 +156,7 @@ class Verifikasi extends Component {
             {this.state.validSertifikat? <Button className="btn-lihat" style={{marginLeft:'1rem'}} onClick={this.handleLihatSertifikat}>Lihat Sertifikat</Button> : null }
               </div>
             </div>
-          :null}
+          :null : null}
           
         </div>
       </div>
