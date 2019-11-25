@@ -9,7 +9,10 @@ class Admin extends Component{
 
       this.state = {
         username: '',
-        password: ''
+        password: '',
+        isEmptyUsername: true,
+        isEmptyPassword: true,
+        message: ''
       }
 
       this.handleLogin = this.handleLogin.bind(this)
@@ -39,23 +42,40 @@ class Admin extends Component{
 
     handleLogin(e){
       e.preventDefault();
-      
+      const $this = this
       const username = this.state.username
       const password = this.state.password
-      const data = JSON.stringify({
-        'use  rname': username,
-        'password': password
+      const isiUsername = controller.validateUsername(username)
+      const isiPassword = controller.validatePassword(password)
+      this.setState({
+        isEmptyUsername: isiUsername,
+        isEmptyPassword: isiPassword,
+        message: ""
       })
+      if(isiUsername===false || isiPassword===false){
+        console.log("kosong")
+      }else{      
+        const data = JSON.stringify({
+          'username': username,
+          'password': password
+        })
 
-      controller.getLogin(data).then(function (response) {
-            if(response){
-              document.cookie = `bbplkbandung.token=${response.data.token}`
-              window.location.href='/sertifikat'
-            }
-            console.log('data', response)
-      }).then(function(error){
-            console.log('error',error)
-      })
+        controller.getLogin(data).then(function (response) {
+          console.log(response)
+              if(!response.data.token==""){
+                document.cookie = `bbplkbandung.token=${response.data.token}`
+                window.location.href='/sertifikat'
+              }else{
+                $this.setState({
+                  message: response.data.message
+                })
+              }
+
+        }).then(function(error){
+              console.log('error',error)
+        })
+
+      }
 
     }
 
@@ -70,13 +90,16 @@ class Admin extends Component{
           </div>
               <Form onSubmit={this.handleLogin} method="post" className="form-container">
                 <Form.Group>
+                {this.state.message? <Form.Label className="errorLogin"> * Username atau Password Tidak Ditemukan</Form.Label> : null}
                   <Form.Label>Username</Form.Label>
                   <Form.Control type="text" placeholder="Username" name="username" value={this.state.username} onChange={this.handleUsername}/>
+                  {!this.state.isEmptyUsername? <Form.Label className="isiForm">* Username Belum Diisi</Form.Label> : null}
                 </Form.Group>
 
                 <Form.Group>
                   <Form.Label>Password</Form.Label>
                   <Form.Control type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.handlePassword}/>
+                  {!this.state.isEmptyPassword? <Form.Label className="isiForm">* Password Belum Diisi</Form.Label> : null}
                 </Form.Group>
 
                 <Form.Group>

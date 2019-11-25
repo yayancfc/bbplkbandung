@@ -30,6 +30,22 @@ class LoginController extends Component{
             
           );
     }
+
+    validateUsername = (username) => {
+      if(username==""){
+        return false
+      }else{
+        return true
+      }
+    }
+
+    validatePassword = (password) => {
+      if(password==""){
+        return false
+      }else{
+        return true
+      }
+    }
 }
 
 export default new LoginController()

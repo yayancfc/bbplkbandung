@@ -189,3 +189,14 @@ button {
   color: red;
   font-weight: bold;
 }
+
+.isiForm{
+  color: red;
+}
+
+
+.errorLogin{
+  color: black;
+  background-color: red;
+  font-weight: bold;
+}

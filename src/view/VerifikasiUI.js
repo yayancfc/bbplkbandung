@@ -131,7 +131,7 @@ class Verifikasi extends Component {
           </form>
           </div>
           {
-            !this.state.isEmpty? <span className="isi">* Nomor Sertifikat Belum Diisi</span> : null
+            !this.state.isEmpty? <span className="isi">* Nomor Sertifikat Belum Diisi, Silahkan isi Terlebih dahulu</span> : null
           }
 
 
