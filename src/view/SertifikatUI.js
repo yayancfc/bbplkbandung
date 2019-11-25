@@ -26,7 +26,7 @@ class Sertifikat extends Component{
           this.setState({
             totalPage: Math.ceil(events.length/this.state.itemPerPage),
             // totalPage: events.length < this.state.itemPerPage? 1 : Math.ceil(events.length/this.state.itemPerPage),
-            logEvents: events
+            logEvents: events.reverse()
           })
              
         })
