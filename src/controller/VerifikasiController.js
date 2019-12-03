@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import sertifikatContract from '../service/Sertifikat';
 import CryptoJS from 'crypto-js';
-import { isNull } from 'util';
 
 class Controller extends Component{
     
@@ -39,7 +38,7 @@ class Controller extends Component{
     }    
 
     validate = (nomor) => {
-      if(nomor==""){
+      if(nomor===""){
         return false;
       }else{
         return true

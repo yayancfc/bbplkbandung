@@ -1,6 +1,6 @@
 import web3 from './web3';
 
-const address = '0x763Bf4f013fD8E5C8d3ab80Eb838389e37156C3D';
+const address = '0xf854098353883eb526A0DF618C340065c25Bb0E8';
 const abi = [
 	{
 		"constant": false,
@@ -14,7 +14,15 @@ const abi = [
 				"type": "string"
 			},
 			{
-				"name": "_penerbit",
+				"name": "_nomorInduk",
+				"type": "string"
+			},
+			{
+				"name": "_ttl",
+				"type": "string"
+			},
+			{
+				"name": "_alamat",
 				"type": "string"
 			},
 			{
@@ -63,7 +71,17 @@ const abi = [
 			},
 			{
 				"indexed": false,
-				"name": "penerbit",
+				"name": "nomorInduk",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "ttl",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "alamat",
 				"type": "string"
 			}
 		],
@@ -80,6 +98,14 @@ const abi = [
 		],
 		"name": "getByChecksum",
 		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "string"
+			},
 			{
 				"name": "",
 				"type": "string"
@@ -115,6 +141,14 @@ const abi = [
 		],
 		"name": "getByNoSertifikat",
 		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "string"
+			},
 			{
 				"name": "",
 				"type": "string"

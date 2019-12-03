@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 import Login from './view/LoginUI';
 import Verifikasi from './view/VerifikasiUI';
 import Sertifikat from './view/SertifikatUI';
+import Detail from './view/DetailSertifikatUI';
 import Upload from './view/UploadUI';
+import Dashboard from './view/DashboardUI';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 function App() {
@@ -14,6 +16,8 @@ function App() {
           <Route path="/admin" component={Login}/>
           <Route path="/sertifikat" component={Sertifikat}/>
           <Route path="/upload" component={Upload}/>
+          <Route path="/detail" component={Detail}/>
+          <Route path="/dashboard" component={Dashboard}/>
         </Switch>
       </Router>
 

@@ -34,34 +34,6 @@ button {
   z-index: 4;
 }
 
-.c-sidebar--is-open {
-  transform: translate(0, 0);
-}
-
-.c-sidebar__content {
-  padding: 10px;
-}
-
-.o-backdrop {
-
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-  opacity: 0;
-    transition: 0.3s all;
-      z-index: 1;
-  visibility: hidden;
-}
-
-.o-backdrop--is-open {
-    visibility: visible;
-
-  opacity: 1;
-}
-
 .bgLogin {
   width: 125px;
   height: 125px;
@@ -106,7 +78,7 @@ button {
 .bg-ver{
   width: 60vw;
   margin: auto;
-  margin-top: 20vh;
+  margin-top: 23vh;
   padding: 2rem;
 }
 
@@ -140,6 +112,8 @@ button {
   padding: 2rem;
   background-color:rgb(179, 190, 202);
   margin-top: 1rem;  
+  margin-left: 3.5rem;
+  width: 47vw;
 }
 
 .valid{
@@ -149,7 +123,7 @@ button {
 }
 
 .logo-ver{
-  margin-top: 0.5rem !important;
+  margin-top: 0.6rem !important;
   margin-right: 4rem !important;
 }
 
@@ -158,10 +132,8 @@ button {
 }
 
 .btn-lihat{
-  height: 50px;
-  width: 180px;
-  position: absolute;
-  right: 22.5rem;
+  height: 38px;
+  width: 280px !important;
 }
 
 #btnLogin{
@@ -198,13 +170,128 @@ button {
 }
 
 .border-primary{
-  height: 55vh !important;
-  margin-bottom: 1rem;
+  height: 60vh !important;
+  width: 80vw;
+  margin: 2rem;
+}
+
+.toEnd{
+  margin-right: 2rem;
+}
+
+.border-tes{
+  width: 24vw;
+}
+
+.colorP{
+  background-color: blue !important;
+}
+
+.colorR{
+  background-color: red;
 }
 
 
 .btn-lihat-admin{
-  width: 19.2rem;
+  width: 20rem;
+  bottom: 1rem;
+  right: 1rem;
   position: absolute;
-  bottom: 2.5rem;
+}
+
+.labelTabel{
+  width: 8rem;
+  height: 4.5rem;
+}
+
+.labelIsi{
+  text-align: left !important;
+}
+
+.labelSep{
+  margin: 0 !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+.toRight{
+  right: 0!important;
+  position: absolute;
+  margin: 2rem;
+}
+
+.login-menu{
+  margin-right: 1rem;
+  background-color: white;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  width: 12rem;
+}
+
+.btn-login{
+  background-color: #283354;
+  border-color: none;
+}
+
+
+/* tes */
+.well {
+  min-height: 20px;
+  padding: 0px;
+  margin-bottom: 20px;
+  background-color: #D9D9D9;
+  border: 1px solid #D9D9D9;
+  border-radius: 0px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+  padding-left: 15px;
+  border:0px;
+}
+.thumbnail .caption {
+  color: #333;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.icon-style
+{
+  margin-right:15px;
+  font-size:18px;
+  margin-top:20px;
+}
+p
+{
+  margin:3px;
+}
+.well-add-card
+{
+  margin-bottom:10px;
+}
+.btn-add-card
+{
+  margin-top:20px;
+}
+.thumbnail {
+  display: block;
+  padding: 4px;
+  margin-bottom: 20px;
+  line-height: 1.42857143;
+  background-color: #fff;
+  border: 6px solid #D9D9D9;
+  border-radius: 15px;
+  -webkit-transition: border .2s ease-in-out;
+  -o-transition: border .2s ease-in-out;
+  transition: border .2s ease-in-out;
+  padding-left: 0px;
+  padding-right: 0px;
+  height: 200px;
+}
+.btn
+{
+  border-radius:0px;
+}
+.btn-update
+{
+  margin-left:15px;
 }

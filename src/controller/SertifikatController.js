@@ -14,11 +14,11 @@ class SertifikatController extends Component{
             })
     }
 
-    upload = async (nomor, nama, bbplk, checksum, buffer) => {
+    upload = async (nomor, nama, nomorInduk, ttl, alamat, checksum, buffer) => {
         const accounts = await web3.eth.getAccounts();
         await ipfs.add(buffer, (err, ipfsHash) =>{
             
-            sertifikatContract.methods.tambahSertifikat(nomor, nama, bbplk, ipfsHash[0].hash, checksum ).send(
+            sertifikatContract.methods.tambahSertifikat(nomor, nama, nomorInduk, ttl, alamat, ipfsHash[0].hash, checksum ).send(
                 {
                     from: accounts[0],
                     gasPrice: web3.utils.toWei("100000000", 'wei')
@@ -53,6 +53,24 @@ class SertifikatController extends Component{
     lihatBlock = (block) => {
         window.location.href = 'http://ropsten.etherscan.io/block/'+block
     }
+
+    cekNama = (nama) => {
+        if(nama===""){
+          return false
+        }else{
+          return true
+        }
+      }
+
+    cekNomorPeserta = (nomorPeserta) => {
+    if(nomorPeserta===""){
+        return false
+    }else{
+        return true
+    }
+    }
+  
+  
 
 }
 

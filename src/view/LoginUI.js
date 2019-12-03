@@ -22,7 +22,7 @@ class Admin extends Component{
     componentDidMount(){
       const token = controller.getCookie('bbplkbandung.token')
       if(token){
-        window.location.href="/sertifikat"
+        window.location.href="/dashboard"
       }
     }
 
@@ -64,7 +64,7 @@ class Admin extends Component{
           console.log(response)
               if(!response.data.token==""){
                 document.cookie = `bbplkbandung.token=${response.data.token}`
-                window.location.href='/sertifikat'
+                window.location.href='/dashboard'
               }else{
                 $this.setState({
                   message: response.data.message

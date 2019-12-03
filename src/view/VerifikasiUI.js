@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import {Button} from 'react-bootstrap';
+import {Button, Nav, Card, Table, Modal} from 'react-bootstrap';
 import bbplk from '../image/bbplklogo.svg';
 import sha256 from 'crypto-js/sha256';
 import Loading from 'react-loading';
-import controller from '../controller/VerifikasiController'
+import controller from '../controller/VerifikasiController';
 
 class Verifikasi extends Component {
 
@@ -12,14 +12,19 @@ class Verifikasi extends Component {
     super(props)
     this.state = {
       nomor: '',
+      nomorValid: '',
+      nama: '',
+      bbplk: '',
       checksum: '',
       ipfsHash: '',
+      nomorPeserta: '',
+      ttl: '',
+      alamat: '',
       validSertifikat: false,
       isLoading: false,
       isValid: false,
       isEmpty: true
     }
-
   }
 
   handleOpenUpload = (e) => {
@@ -52,7 +57,12 @@ class Verifikasi extends Component {
             isLoading: false,
             isValid: true,
             validSertifikat: response[4],
-            ipfsHash: response[1]
+            ipfsHash: response[1],
+            nomorValid: response[0],
+            nama: response[2],
+            nomorPeserta: response[3],
+            ttl: response[4],
+            alamat: response[5]
           })
           
       })
@@ -90,8 +100,13 @@ class Verifikasi extends Component {
         this.setState({
           isLoading: false,
           isValid: true,
+          nomorValid: response[0],
+          nama: response[2],
           validSertifikat: response[4],  
-          ipfsHash: response[1]
+          ipfsHash: response[1],
+          nomorPeserta: response[3],
+          ttl: response[4],
+          alamat: response[5]
           })
       })
     }
@@ -108,12 +123,21 @@ class Verifikasi extends Component {
     return (
     
       <div className=" border-right ver" id="sidebar-wrapper">
-      
-        <div className="sidebar-heading">
-          <a href={"/"}> <img src={bbplk} className="logo"/></a>
-        </div>
+        
+        <Nav className="navbar navbar-expand-lg">                                              
+          {/* <div className="sidebar-heading float-right">
+            <a href={"/"}> <img src={bbplk} className="logo"/></a>
+          </div>             */}
+        </Nav>
+
+
 
       <div style={{backgroundColor:'#e6ecff'}} className="bg-ver">
+      
+      <div className="form-row justify-content-md-center">
+            <a href={"/"}> <img src={bbplk} className="logo"/></a>
+          </div>            
+
         <div className="form-row justify-content-md-center">
             <div className="my-3"><h1 id="bbplk">Verifikasi Sertfikat BBPLK Bandung</h1></div>
         </div>
@@ -139,25 +163,74 @@ class Verifikasi extends Component {
             <form>    
                   <input id="upload" type="file" onChange={this.handleVerifyBYChecksum}/>
                   <a href="#" id="upload_link" onClick={this.handleOpenUpload} style={{marginLeft:'2.5rem'}}>
-                    Upload Sertifikat</a>​ ( Alternatif Verifikasi Menggunakan File Sertifikat )
+                    <u>Upload File Sertifikat</u></a>​ ( Verifikasi Menggunakan File Sertifikat )
             </form>
           </div>
+  
+  
           {this.state.isLoading? 
           <div className="form-row justify-content-md-center valid-form">
             <Loading/>
           </div>
           : null}
 
-          {this.state.isValid? this.state.isEmpty?
-            <div className="container">
-            <div className="form-row justify-content-md-center valid-form">
-            <label className="valid">{this.state.validSertifikat? 'Sertifikat Valid' : 'Sertifikat Tidak Valid'}</label>
-            <i className={this.state.validSertifikat? 'fa fa-check-circle fa-2x logo-ver' : 'fa fa-times-circle fa-2x logo-ver'} aria-hidden="true"></i>
-            {this.state.validSertifikat? <Button className="btn-lihat" style={{marginLeft:'1rem'}} onClick={this.handleLihatSertifikat}>Lihat Sertifikat</Button> : null }
-              </div>
+            <Modal 
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+            show={this.state.isValid} onHide={() => this.setState({isValid: false})}>
+              <Modal.Header closeButton style={{backgroundColor: 'rgb(40, 51, 84)', color: 'white'}}>
+            <Modal.Title style={{textAlign: 'center'}}>Verifikasi Sertifikat Pelatihan Kerja</Modal.Title>
+              </Modal.Header>
+              <Modal.Body style={{backgroundColor: 'rgb(179, 190, 202)'}}>
+              <form>
+            
+            {this.state.validSertifikat?
+            <div className="valid-form ">
+              <label className="valid ">Sertifikat Valid</label><i className="fa fa-check-circle fa-2x logo-ver"></i>
+            <div className="form-group has-feedback row">
+            <div className="input-group col-md-6">
+              
+              <i className="fa fa-id-card-o" style={{backgroundColor: 'grey', paddingTop:'0.6rem'}}></i>
+              <input type="text" className="form-control" value={this.state.nomorValid} disabled></input>
             </div>
-          :null : null}
-          
+
+            <div className="input-group col-md-6">
+              <i className="fa fa-user-circle-o" style={{backgroundColor: 'grey', paddingTop:'0.6rem'}}></i>
+              <input type="text" className="form-control" value={this.state.nama} disabled></input>
+            </div>
+            </div>
+            
+            <div className="form-group has-feedback row">
+            <div className="input-group col-md-6">
+              <i className="fa fa-list-alt" style={{backgroundColor: 'grey', paddingTop:'0.6rem'}}></i>
+              <input type="text" className="form-control" value={this.state.nomorPeserta} disabled></input>
+            </div>
+
+            <div className="input-group col-md-6">
+              <i className="fa fa-calendar-o" style={{backgroundColor: 'grey', paddingTop:'0.6rem'}}></i>
+              <input type="text" className="form-control" value={this.state.ttl} disabled></input>
+            </div>
+
+            </div>
+            </div>
+              : 
+              <div className="form-row justify-content-md-center valid-form">
+                <label className="valid">Sertifikat Tidak Valid</label><i className="fa fa-times-circle fa-2x logo-ver"></i>
+              </div> }
+              
+          </form> 
+              </Modal.Body>
+              <Modal.Footer>
+              {this.state.validSertifikat? <Button variant="primary" onClick={this.handleLihatSertifikat}> 
+                  Lihat Sertifikat
+                </Button>
+                : null }
+                <Button variant="secondary" onClick={() => this.setState({isValid: false})}>
+                  Tutup
+                </Button>
+              </Modal.Footer>
+            </Modal>
         </div>
       </div>
     );

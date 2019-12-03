@@ -12,9 +12,16 @@ class Upload extends Component{
         this.state = {
             nomor: '',
             nama: '',
-            bbplk: '',
+            nomorInduk: '',
+            ttl: '',
+            alamat: '',
             buffer: '',
-            checksum: ''
+            checksum: '',
+            isEmptyNomor: true,
+            isEmptyNama: true,
+            isEmptyNomorInduk: true,
+            isEmptyTtl: true,
+            isEmptyAlamat: true,
         }
 
         this.handleNama = this.handleNama.bind(this)
@@ -30,24 +37,48 @@ class Upload extends Component{
 
     handleUpload = async (e) => {
         e.preventDefault();
+        
         const nomor = this.state.nomor.toUpperCase();
         const nama = this.state.nama;
-        const bbplk = this.state.bbplk;
+        const nomorInduk = this.state.nomorInduk;
+        const alamat = this.state.alamat;
+        const ttl = this.state.ttl;
         const checksum = this.state.checksum;
         const buffer = this.state.buffer
 
-        controller.upload(nomor, nama, bbplk, checksum, buffer).then((respone) => {
-            console.log(respone)
-        })
-
-    }
-
-    componentDidMount(){
+        const isiNomor = nomor=='' ? false : true
+        const isiNama = nama=='' ? false : true
+        const isiNomorInduk = nomorInduk=='' ? false : true
+        const isiAlamat = alamat=='' ? false : true
+        const isiTtl = ttl=='' ? false : true
+        
         this.setState({
-            bbplk: 'BBPLK Bandung'
+            isEmptyNomor: isiNomor,
+            isEmptyNama: isiNama,
+            isEmptyAlamat: isiAlamat,
+            isEmptyNomorInduk: isiNomorInduk,
+            isEmptyTtl: isiTtl 
+        })
+        if(isiNomorInduk===false || isiNama===false || isiNomor===false || isiAlamat=== false || isiTtl===false){
+            console.log('kosong')
+        }else{
+            
+        controller.upload(nomor, nama, nomorInduk, ttl, alamat, checksum, buffer).then((error, transactionHash) => {            
+            if(transactionHash!=='undefined'){    
+            // setTimeout(() => {
+            //         window.location.href = "/sertifikat"
+            //     }, 1500);
+            console.log(transactionHash)
+             }else{
+                 console.log(error)
+             }
         })
 
+        }
+        
+
     }
+
 
     captureFile = (e) => {
         e.stopPropagation();
@@ -64,9 +95,17 @@ class Upload extends Component{
         })        
     }
 
-    handleReset(e){
+    handleReset = (e) =>{
         e.preventDefault()
-        console.log('reset')
+        this.setState({
+            nomor: '',
+            nama: '',
+            nomorInduk: '',
+            ttl: '',
+            alamat: '',
+            buffer: '',
+            checksum: '',
+        })
     }
 
     handleNomor = (e) => {
@@ -80,7 +119,24 @@ class Upload extends Component{
             nama: e.target.value
         })
     }
-    
+
+    handleNomorInduk = (e) => {
+        this.setState({
+            nomorInduk: e.target.value
+        })
+    }
+
+    handleAlamat = (e) => {
+        this.setState({
+            alamat: e.target.value
+        })
+    }
+
+    handleTtl = (e) => {
+        this.setState({
+            ttl: e.target.value
+        })
+    }   
 
     render(){
         return(
@@ -99,17 +155,32 @@ class Upload extends Component{
                     <Form onSubmit={this.handleUpload}>
                         <Form.Group>
                             <Form.Label>Nomor Sertifikat</Form.Label>
-                            <Form.Control type="text" placeholder="Nomor Sertifikat" name="nomor" ref ="this.nomor" onChange={this.handleNomor}/>
+                            <Form.Control type="text" placeholder="Nomor Sertifikat" name="nomor" onChange={this.handleNomor} value={this.state.nomor}/>
+                            {!this.state.isEmptyNomor? <Form.Label className="isiForm">* Nomor Sertifikat Belum Diisi</Form.Label> : null}
                         </Form.Group>
 
                         <Form.Group>
                             <Form.Label>Nama Peserta</Form.Label>
-                            <Form.Control type="text" placeholder="Nama Peserta" name="nama" ref ="this.nama" onChange={this.handleNama}/>
+                            <Form.Control type="text" placeholder="Nama Peserta" name="nama" onChange={this.handleNama} value={this.state.nama}/>
+                            {!this.state.isEmptyNama? <Form.Label className="isiForm">* Nama Peserta Belum Diisi</Form.Label> : null}
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Label>BBPLK</Form.Label>
-                            <Form.Control type="text" disabled value={this.state.bbplk} name="bbplk" ref ="this.bbplk"/>
+                            <Form.Label>Nomor Induk Peserta</Form.Label>
+                            <Form.Control type="text" placeholder="Nomor Induk Peserta" name="nomorInduk" onChange={this.handleNomorInduk} value={this.state.nomorInduk}/>
+                            {!this.state.isEmptyNomorInduk? <Form.Label className="isiForm">* Nomor Induk Peserta Belum Diisi</Form.Label> : null}
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label>Tempat/Tanggal Lahir</Form.Label>
+                            <Form.Control type="text" placeholder="Tempat/Tanggal Lahir" onChange={this.handleTtl} value={this.state.ttl}/>
+                            {!this.state.isEmptyTtl? <Form.Label className="isiForm">* Tempat,Tanggal Lahir Belum Diisi</Form.Label> : null}
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label>Alamat</Form.Label>
+                            <Form.Control type="text" name="bbplk" onChange={this.handleAlamat} value={this.state.alamat} style={{height: '12vh'}}/>
+                            {!this.state.isEmptyAlamat? <Form.Label className="isiForm">* Alamat Belum Diisi</Form.Label> : null}
                         </Form.Group>
 
                         <Form.Group>

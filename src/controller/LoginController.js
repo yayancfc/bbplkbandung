@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import axios from 'axios';
-import { isNull } from 'util';
 
 class LoginController extends Component{
     getCookie(cname) {
@@ -9,10 +8,10 @@ class LoginController extends Component{
         var ca = decodedCookie.split(';');
         for(var i = 0; i <ca.length; i++) {
           var c = ca[i];
-          while (c.charAt(0) == ' ') {
+          while (c.charAt(0) === ' ') {
             c = c.substring(1);
           }
-          if (c.indexOf(name) == 0) {
+          if (c.indexOf(name) === 0) {
             return c.substring(name.length, c.length);
           }
         }
@@ -32,7 +31,7 @@ class LoginController extends Component{
     }
 
     validateUsername = (username) => {
-      if(username==""){
+      if(username===""){
         return false
       }else{
         return true
@@ -40,11 +39,15 @@ class LoginController extends Component{
     }
 
     validatePassword = (password) => {
-      if(password==""){
+      if(password===""){
         return false
       }else{
         return true
       }
+    }
+
+    login = () => {
+      window.location.href = "/admin"
     }
 }
 

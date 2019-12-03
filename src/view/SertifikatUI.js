@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Sidebar from './SidebarUI';
+import {Link} from 'react-router-dom';
 import {Nav, Button, Card, Table} from 'react-bootstrap';
 import controller from '../controller/SertifikatController';
 
@@ -11,8 +12,10 @@ class Sertifikat extends Component{
         logEvents: [],
         currentSlice: 0,
         totalPage: 0,
-        itemPerPage: 5
+        itemPerPage: 9
       }
+
+      this.detail = this.detail.bind(this)
     }
 
     linkToUpload(e){
@@ -20,6 +23,7 @@ class Sertifikat extends Component{
     }
 
      componentDidMount(){
+      if(localStorage.getItem('data')) localStorage.removeItem('data')
       controller.getPastEvents().then((events)=> {
         console.log(events)
         console.log(events.length, events.length/this.state.itemPerPage, 'asasas')
@@ -27,9 +31,14 @@ class Sertifikat extends Component{
             totalPage: Math.ceil(events.length/this.state.itemPerPage),
             // totalPage: events.length < this.state.itemPerPage? 1 : Math.ceil(events.length/this.state.itemPerPage),
             logEvents: events.reverse()
-          })
-             
+          })             
         })
+     }
+
+     detail = (data) => {
+      //  window.location.href="/detail",
+      //e.preventDefault()
+      localStorage.setItem('data', JSON.stringify(data))
      }
 
     render(){
@@ -43,66 +52,61 @@ class Sertifikat extends Component{
               <Button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
               </Button> */}
-                <Button onClick={this.linkToUpload} className="btn-label-upload"><i className="fa fa-plus-circle fa-lg" aria-hidden="true"></i> Upload Sertifikat</Button>
-                
+                <Button onClick={this.linkToUpload} className="btn-label-upload"><i className="fa fa-plus-circle fa-lg" aria-hidden="true"></i> Upload Sertifikat</Button>                
             </Nav>
 
-            <div className="row" style={{margin:'2rem'}}>
+            <div className="row" style={{margin:'1rem'}}>
               
-              {this.state.logEvents.slice(this.state.currentSlice, this.state.currentSlice+this.state.itemPerPage).map(data => {
-                  return (
-                    <div className="col-md-4" key={data.id}>
-                    <Card border="primary" style={{ width: '21rem'}}>
-                    <Card.Header>{data.returnValues.nomorSertifikat}</Card.Header>
-                       <Table className="table-responsive">
-                        <tbody>
-                          <tr>
-                            <td>Nama Peserta</td>
-                            <td>:</td>
-                            <td>{data.returnValues.nama}</td>
-                          </tr>
+              {this.state.logEvents.slice(this.state.currentSlice, this.state.currentSlice+this.state.itemPerPage).map((data, index) => {
+              return (
+                  <div className="col-xs-12 col-sm-4 col-md-4 col-lg-4" key={index}>
+                  <div className="thumbnail">
+                      <div className="caption">
+                        <div className='col-lg-12'>
+                        </div>
+                        <div className='col-lg-12 well well-add-card'>
+                            <b>{data.returnValues.nomorSertifikat}</b>
+                        </div>
+                        <div className='col-lg-12' style={{height: '60px', position:'relative'}}>
+                            <table>
+                              <tbody>
 
-                          <tr>
-                            <td>Penerbit</td>
-                            <td>:</td>
-                            <td>{data.returnValues.penerbit}</td>
-                          </tr>
-                          
-                          <tr>
-                            <td >Tx.Hash</td>
-                            <td >:</td>
-                            <td ><a href={'http://ropsten.etherscan.io/tx/'+data.transactionHash}>{data.transactionHash.substr(0,18)}...</a></td>
-                          </tr>
+                              
+                            <tr>
+                           <td className="labelIsi">Nama </td>
+                             <td className="labelSep">:</td>
+                             <td className="labelIsi">{data.returnValues.nama}</td>
+                           </tr>
 
-                          <tr>
-                            <td >Block Number</td>
-                            <td >:</td>
-                            <td ><a href={'https://ropsten.etherscan.io/block/'+data.blockNumber}>{data.blockNumber}</a></td>
-                          </tr>
-
-                          <tr>
-                            <td colSpan="3"><a href={'https://gateway.ipfs.io/ipfs/'+data.returnValues.ipfshash}><Button className="btn-lihat-admin">Lihat Sertifikat</Button></a></td>
-                          </tr>
-
-
-                        </tbody>
-                        
-                      </Table>
-                    </Card>
+                           <tr>
+                             <td className="labelIsi">Nomor Induk </td>
+                             <td className="labelSep">:</td>
+                             <td className="labelIsi">{data.returnValues.nomorInduk}</td>
+                           </tr>
+                           </tbody>
+                            </table>
+                        </div>
+                        <Link to={{
+                                 pathname: '/detail'
+                               }} onClick={() => this.detail(data)}>
+                        <button type="button"  className="btn btn-primary btn-xs" style={{position: 'absolute', bottom:40, right:30}}>Lihat Detail</button>
+                        </Link>
+                    </div>
                   </div>
+                </div>
                   );  
-              })}         
+              })}       
 
             </div>
-            {/* {Array(this.state.totalPage > 1 ? this.state.totalPage + 1: this.state.totalPage).fill().map((_, i) =>  { */}
-            {Array(this.state.totalPage).fill().map((_, i) =>  {
-              
+
+            {Array(this.state.totalPage).fill().map((_, i) =>  {              
                 return (
                 <Button onClick={() => {
                   this.setState({
                     currentSlice: i * this.state.itemPerPage
                   })
-                }}>{i === 0 ? 1 : i+1}</Button>
+                }} className="float-right toEnd">{i === 0 ? 1 : i+1}</Button>
+                
               )}
             )}
             

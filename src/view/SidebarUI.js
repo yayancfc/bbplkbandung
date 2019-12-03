@@ -29,6 +29,7 @@ class Sidebar extends Component{
             <a href={"/home"}> <img src={bbplk} className="logo"/></a>
           </div>
           <div className="list-group list-group-flush">
+            <Link to="/dashboard" className="list-group-item list-group-item-action bg-light">Dashboard</Link>
             <Link to="/sertifikat" className="list-group-item list-group-item-action bg-light">Sertifikat</Link>
             <a href="#" onClick={this.logout} className="list-group-item list-group-item-action bg-light">Logout</a>
             <hr/>            
