@@ -46,6 +46,7 @@ class Sertifikat extends Component{
         <div className="d-flex" id="wrapper">
             
         <Sidebar/>
+        
         <div id="page-content-wrapper">
             <Nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
               {/* <Button className="btn btn-primary" id="menu-toggle">Menu</Button>
@@ -105,7 +106,7 @@ class Sertifikat extends Component{
                   this.setState({
                     currentSlice: i * this.state.itemPerPage
                   })
-                }} className="float-right toEnd">{i === 0 ? 1 : i+1}</Button>
+                }} className="float-right toEnd" key={i}>{i === 0 ? 1 : i+1}</Button>
                 
               )}
             )}

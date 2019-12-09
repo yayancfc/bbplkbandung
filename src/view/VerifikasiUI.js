@@ -23,7 +23,8 @@ class Verifikasi extends Component {
       validSertifikat: false,
       isLoading: false,
       isValid: false,
-      isEmpty: true
+      isEmpty: true,
+      blockNumber: ''
     }
   }
 
@@ -56,7 +57,7 @@ class Verifikasi extends Component {
           this.setState({
             isLoading: false,
             isValid: true,
-            validSertifikat: response[4],
+            blockNumber: response[6],
             ipfsHash: response[1],
             nomorValid: response[0],
             nama: response[2],
@@ -102,7 +103,7 @@ class Verifikasi extends Component {
           isValid: true,
           nomorValid: response[0],
           nama: response[2],
-          validSertifikat: response[4],  
+          blockNumber: response[6],  
           ipfsHash: response[1],
           nomorPeserta: response[3],
           ttl: response[4],
@@ -117,6 +118,10 @@ class Verifikasi extends Component {
     const hash = this.state.ipfsHash
     console.log(hash)
     controller.lihatSertifikat(hash)
+  }
+
+  handleLihatDetail = (e) => {
+    console.log()
   }
 
   render(){ 
@@ -185,7 +190,7 @@ class Verifikasi extends Component {
               <Modal.Body style={{backgroundColor: 'rgb(179, 190, 202)'}}>
               <form>
             
-            {this.state.validSertifikat?
+            {!this.state.nama==""?
             <div className="valid-form ">
               <label className="valid ">Sertifikat Valid</label><i className="fa fa-check-circle fa-2x logo-ver"></i>
             <div className="form-group has-feedback row">
@@ -222,9 +227,18 @@ class Verifikasi extends Component {
           </form> 
               </Modal.Body>
               <Modal.Footer>
-              {this.state.validSertifikat? <Button variant="primary" onClick={this.handleLihatSertifikat}> 
+              {!this.state.nama==""? 
+              <div>
+                <Button variant="primary" onClick={this.handleLihatSertifikat} style={{marginRight:'0.5rem'}}> 
                   Lihat Sertifikat
                 </Button>
+
+                <Button variant="primary" onClick={this.handleLihatDetail}> 
+                  Lihat Detail
+                </Button>
+
+                </div>
+                
                 : null }
                 <Button variant="secondary" onClick={() => this.setState({isValid: false})}>
                   Tutup
