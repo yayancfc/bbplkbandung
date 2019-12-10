@@ -5,6 +5,8 @@ import bbplk from '../image/bbplklogo.svg';
 import sha256 from 'crypto-js/sha256';
 import Loading from 'react-loading';
 import controller from '../controller/VerifikasiController';
+import web3 from '../service/web3';
+import {Link} from 'react-router-dom';
 
 class Verifikasi extends Component {
 
@@ -120,10 +122,6 @@ class Verifikasi extends Component {
     controller.lihatSertifikat(hash)
   }
 
-  handleLihatDetail = (e) => {
-    console.log()
-  }
-
   render(){ 
     return (
     
@@ -174,10 +172,10 @@ class Verifikasi extends Component {
   
   
           {this.state.isLoading? 
-          <div className="form-row justify-content-md-center valid-form">
-            <Loading/>
+          <div className="form-row justify-content-md-center valid-form-loading">
+            <Loading className="asd"/>
           </div>
-          : null}
+           : null} 
 
             <Modal 
               size="lg"
@@ -229,13 +227,17 @@ class Verifikasi extends Component {
               <Modal.Footer>
               {!this.state.nama==""? 
               <div>
-                <Button variant="primary" onClick={this.handleLihatSertifikat} style={{marginRight:'0.5rem'}}> 
+                <Button variant="primary" onClick={this.handleLihatSertifikat} style={{marginRight:'0.5rem'}} className="btn-valid"> 
                   Lihat Sertifikat
                 </Button>
 
-                <Button variant="primary" onClick={this.handleLihatDetail}> 
+                <Link 
+                  to={`/verifikasi/${encodeURIComponent(this.state.nomorValid)}`}
+                >
+                <Button variant="primary" onClick={this.handleLihatDetail} className="btn-valid"> 
                   Lihat Detail
                 </Button>
+                </Link>
 
                 </div>
                 
