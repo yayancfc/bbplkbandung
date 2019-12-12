@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 
 import {Button, Nav, Card, Table, Modal} from 'react-bootstrap';
 import bbplk from '../image/bbplklogo.svg';
-import sha256 from 'crypto-js/sha256';
-import Loading from 'react-loading';
 import controller from '../controller/VerifikasiController';
 import web3 from '../service/web3';
 
@@ -23,6 +21,7 @@ class VerifikasiDetail extends Component {
         nonce: '',
         timestamp: '',
         gasLimit: '',
+        gasUsed: '',
         blockHash: ''
     }
     
@@ -41,7 +40,6 @@ class VerifikasiDetail extends Component {
             ttl: response[4],
             alamat: response[5]
         })
-
         
     web3.eth.getBlock(this.state.blockNumber).then((response) => {
             console.log('block', response)
@@ -50,10 +48,31 @@ class VerifikasiDetail extends Component {
                 nonce: response.nonce,
                 timestamp: response.timestamp,
                 miner: response.miner,
-                gasLimit: response.gasLimit
+                gasLimit: response.gasLimit,
+                gasUsed: response.gasUsed
             })
         })
       })
+  }
+
+  timeConverter = (UNIX_timestamp) => {
+    var a = new Date(UNIX_timestamp * 1000);
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var year = a.getFullYear();
+    var month = months[a.getMonth()];
+    var date = a.getDate();
+    var hour = a.getHours();
+    var min = a.getMinutes();
+    var sec = a.getSeconds();
+    var time = date + '-' + month + '-' + year + ' ' + hour + ':' + min + ':' + sec ;
+    return time;
+  }
+
+  handleLihatSertifikat = (e) => {
+    e.preventDefault()
+    const hash = this.state.ipfsHash
+    console.log(hash)
+    controller.lihatSertifikat(hash)
   }
 
   render(){ 
@@ -68,7 +87,7 @@ class VerifikasiDetail extends Component {
 
 
 
-            <div style={{backgroundColor:'#e6ecff'}} className="bg-ver">
+            <div style={{backgroundColor:'#e6ecff'}} className="bg-ver-detail">
             
             <div className="form-row justify-content-md-center">
                     <a href={"/"}> <img src={bbplk} className="logo"/></a>
@@ -113,7 +132,7 @@ class VerifikasiDetail extends Component {
                         <tr>
                             <td>Block Number</td>
                             <td>:</td>
-                            <td>{this.state.blockNumber}</td>
+                            <td><a href={"https://ropsten.etherscan.io/block/"+ this.state.blockNumber}>{this.state.blockNumber}</a></td>
                         </tr>
 
                         
@@ -135,11 +154,30 @@ class VerifikasiDetail extends Component {
                             <td>{this.state.nonce}</td>
                         </tr>
 
-                        
+                        <tr>
+                            <td>Gas Limit</td>
+                            <td>:</td>
+                            <td>{this.state.gasLimit}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Gas Used</td>
+                            <td>:</td>
+                            <td>{this.state.gasUsed}</td>
+                        </tr>
+
                         <tr>
                             <td>Timestamp</td>
                             <td>:</td>
-                            <td>{this.state.timestamp}</td>
+                            <td>{this.timeConverter(this.state.timestamp)}</td>
+                        </tr>
+
+                        <tr>
+                            <td colSpan="3">
+                            <Button variant="primary" onClick={this.handleLihatSertifikat} > 
+                            Lihat Sertifikat
+                            </Button>
+                            </td>
                         </tr>
                     </tbody>
                 </Table>
