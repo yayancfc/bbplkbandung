@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import axios from 'axios';
+import { API_URL } from '../Utils';
 
 class LoginController extends Component{
     getCookie(cname) {
@@ -20,7 +21,7 @@ class LoginController extends Component{
 
     getLogin = (data) => {
         return axios.post(
-            'http://localhost/bbplkbandung/backend/api/LoginController.php',
+            API_URL + '/bbplkbandung/backend/api/LoginController.php',
             data,
             {
               withCredentials: true,

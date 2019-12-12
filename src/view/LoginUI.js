@@ -79,7 +79,7 @@ class Admin extends Component{
 
     render(){
       return (
-        <div className="container-fluid bg">
+        <div className="container-fluid bg ver">
           <div className="row">
           <div className="col-md-4 col-sm-3 col-xs-1"></div>
           <div className="col-md-4 col-sm-6 col-xs-10">

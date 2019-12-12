@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import {Button, Nav, Card, Table, Modal} from 'react-bootstrap';
+import {Button, Nav, Table} from 'react-bootstrap';
 import bbplk from '../image/bbplklogo.svg';
 import controller from '../controller/VerifikasiController';
 import web3 from '../service/web3';

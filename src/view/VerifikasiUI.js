@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 
-import {Button, Nav, Card, Table, Modal} from 'react-bootstrap';
+import {Button, Nav, Modal} from 'react-bootstrap';
 import bbplk from '../image/bbplklogo.svg';
 import sha256 from 'crypto-js/sha256';
 import Loading from 'react-loading';
 import controller from '../controller/VerifikasiController';
-import web3 from '../service/web3';
 import {Link} from 'react-router-dom';
 
 class Verifikasi extends Component {

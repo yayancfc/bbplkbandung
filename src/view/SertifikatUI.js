@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Sidebar from './SidebarUI';
 import {Link} from 'react-router-dom';
-import {Nav, Button, Card, Table} from 'react-bootstrap';
+import {Nav, Button} from 'react-bootstrap';
 import controller from '../controller/SertifikatController';
 
 class Sertifikat extends Component{

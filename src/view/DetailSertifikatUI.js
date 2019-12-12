@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import Sidebar from './SidebarUI';
 import {Nav, Button, Card, Table} from 'react-bootstrap';
-import bbplk from '../image/bbplklogo.svg';
 import web3 from '../service/web3';
 
 class DetailSertifikat extends Component{
@@ -97,10 +96,10 @@ class DetailSertifikat extends Component{
                     <div className="form-row justify-content-md-center bg-ver-detail" style={{backgroundColor:'#e6ecff'}}>
                       
                       <div className="form-row justify-content-md-center">
-                      <a href={"#"}> <img className="logo" src={bbplk}/></a>
-                    </div>   
+                      {/* <a href={"#"}> <img className="logo" src={bbplk}/></a> */}
+                      </div>   
                       <div className="form-row justify-content-md-center">
-                          <div className="my-3"><h1 id="bbplk">Info Sertifikat</h1></div>
+                        <div className="my-3"><h1 id="bbplk">{this.state.nomorSertifikat}</h1></div>
                       </div>         
                     {/* <Card border="primary">
                     <Card.Header>{this.state.nomorSertifikat}</Card.Header> */}
