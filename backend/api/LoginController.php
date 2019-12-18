@@ -1,8 +1,8 @@
 <?php
     class LoginController{
         function getDataLogin(){
-            
-            $IS_PRODUCTION = ($_SERVER['SERVER_ADDR'] != '127.0.0.1');
+            //$IS_PRODUCTION = ($_SERVER['SERVER_ADDR'] != '127.0.0.1');
+            $IS_PRODUCTION = ($_SERVER['SERVER_ADDR'] == 'localhost');
             
             $API_URL = ($IS_PRODUCTION) ? 'https://sertifikat.victim.id' : 'http://localhost:3000';
             $HOST = ($IS_PRODUCTION) ? 'localhost' : 'localhost';

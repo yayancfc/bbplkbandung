@@ -153,6 +153,7 @@ button {
 
 #btnLogin{
   width: 22.2rem;
+  max-width: 100%;
 }
 
 .btn-label-upload{
@@ -310,7 +311,8 @@ p
 }
 
 a#upload_link{
-  margin-left: 3.5rem !important;
+  margin-left: 2.5rem !important;
+  max-width: 100%;
 }
 
 .table-detail{
