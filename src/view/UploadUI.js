@@ -63,8 +63,8 @@ class Upload extends Component{
             console.log('kosong')
         }else{
             
-        controller.upload(nomor, nama, nomorInduk, ttl, alamat, checksum, buffer).then((error, transactionHash) => {            
-            if(transactionHash!=='undefined'){    
+        controller.upload(nomor, nama, nomorInduk, ttl, alamat, checksum, buffer, (error, transactionHash) => {            
+            if(transactionHash){    
             // setTimeout(() => {
             //         window.location.href = "/sertifikat"
             //     }, 1500);

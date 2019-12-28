@@ -6,7 +6,8 @@ import Sertifikat from './view/SertifikatUI';
 import Detail from './view/DetailSertifikatUI';
 import Upload from './view/UploadUI';
 import Dashboard from './view/DashboardUI';
-import VerifikasiDetail from './view/VerifikasiDetail'
+import VerifikasiDetail from './view/VerifikasiDetail';
+import Pending from './view/PendingUI';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 function App() {
@@ -19,7 +20,8 @@ function App() {
           <Route path="/upload" component={Upload}/>
           <Route path="/detail" component={Detail}/>
           <Route path="/dashboard" component={Dashboard}/>
-          <Route path="/verifikasi/:nomor" component={VerifikasiDetail}/>
+          <Route path="/verifikasi/:nomor" component={VerifikasiDetail}/>          
+          <Route path="/pending" component={Pending}/>
         </Switch>
       </Router>
 

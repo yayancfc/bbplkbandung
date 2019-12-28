@@ -23,6 +23,7 @@ class Sertifikat extends Component{
     }
 
      componentDidMount(){
+
       if(localStorage.getItem('data')) localStorage.removeItem('data')
       controller.getPastEvents().then((events)=> {
         console.log(events)

@@ -6,6 +6,7 @@ import sha256 from 'crypto-js/sha256';
 import Loading from 'react-loading';
 import controller from '../controller/VerifikasiController';
 import {Link} from 'react-router-dom';
+import web3 from '../service/web3';
 
 class Verifikasi extends Component {
 
