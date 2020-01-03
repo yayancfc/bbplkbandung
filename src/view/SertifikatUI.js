@@ -101,16 +101,18 @@ class Sertifikat extends Component{
 
             </div>
 
+            <div className="float-left toEnd">
             {Array(this.state.totalPage).fill().map((_, i) =>  {              
                 return (
                 <Button onClick={() => {
                   this.setState({
                     currentSlice: i * this.state.itemPerPage
                   })
-                }} className="float-right toEnd" key={i}>{i === 0 ? 1 : i+1}</Button>
+                }} key={i}>{i === 0 ? 1 : i+1}</Button>
                 
               )}
             )}
+            </div>
             
           </div>
         </div>

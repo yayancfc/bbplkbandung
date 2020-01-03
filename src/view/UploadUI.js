@@ -22,6 +22,9 @@ class Upload extends Component{
             isEmptyNomorInduk: true,
             isEmptyTtl: true,
             isEmptyAlamat: true,
+            isFormatNomor: true,
+            isValidFile: true,
+            isEmptyChecksum: true
         }
 
         this.handleNama = this.handleNama.bind(this)
@@ -45,46 +48,85 @@ class Upload extends Component{
         const ttl = this.state.ttl;
         const checksum = this.state.checksum;
         const buffer = this.state.buffer
+        const subStrNomor = nomor.substr(0, 3)
 
         const isiNomor = nomor=='' ? false : true
         const isiNama = nama=='' ? false : true
         const isiNomorInduk = nomorInduk=='' ? false : true
         const isiAlamat = alamat=='' ? false : true
         const isiTtl = ttl=='' ? false : true
+        const isiChecksum = checksum=='' ? false : true
         
         this.setState({
             isEmptyNomor: isiNomor,
             isEmptyNama: isiNama,
             isEmptyAlamat: isiAlamat,
             isEmptyNomorInduk: isiNomorInduk,
-            isEmptyTtl: isiTtl 
+            isEmptyTtl: isiTtl,
+            isEmptyChecksum: isiChecksum,
+            isFormatNomor: true
         })
-        if(isiNomorInduk===false || isiNama===false || isiNomor===false || isiAlamat=== false || isiTtl===false){
+        if(isiNomorInduk===false && isiNama===false && isiNomor===false && isiAlamat=== false && isiTtl===false && isiChecksum===false){
             console.log('kosong')
-        }else{
+        }else if(isiNomor===true && subStrNomor!='STF'){
+            this.setState({
+                isFormatNomor: false
+            })
             
-        controller.upload(nomor, nama, nomorInduk, ttl, alamat, checksum, buffer, (error, transactionHash) => {            
-            if(transactionHash){    
-            // setTimeout(() => {
-            //         window.location.href = "/sertifikat"
-            //     }, 1500);
-            console.log(transactionHash)
-             }else{
-                 console.log(error)
-             }
-        })
+            console.log("nomor Tidak Valid", this.state.isFormatNomor)
+        }else if(this.state.isValidFile===true && this.state.isFormatNomor===true){
+                
+            console.log("nomor Tidak Valid", this.state.isFormatNomor, this.state.isValidFile)
+            controller.upload(nomor, nama, nomorInduk, ttl, alamat, checksum, buffer, (error, transactionHash) => {            
+                if(transactionHash){    
+                setTimeout(() => {
+                        window.location.href = "/sertifikat"
+                    }, 1500);
+                console.log(transactionHash)
+                }else{
+                    console.log(error)
+                }
+            })
 
-        }
-        
-
+        }        
     }
 
+    validate = () => {
+        var _validFileExtensions = [".pdf"]; 
+        var arrInputs = document.getElementsByTagName("input");
+        for (var i = 0; i < arrInputs.length; i++) {
+            var oInput = arrInputs[i];
+            if (oInput.type == "file") {
+                var sFileName = oInput.value;
+                if (sFileName.length > 0) {
+                    var blnValid = false;
+                    for (var j = 0; j < _validFileExtensions.length; j++) {
+                        var sCurExtension = _validFileExtensions[j];
+                        if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                            blnValid = true;
+                            break;
+                        }
+                    }
+                    
+                    if (!blnValid) {
+                        return false;
+                    }
+                }
+            }
+        }
+      
+        return true;
+    }
 
     captureFile = (e) => {
         e.stopPropagation();
+        const file = this.validate()
+        this.setState({
+            isValidFile: file
+        })
         controller.generateChecksum(e, file => {
             this.convertToBuffer(file);
-          })
+        })         
     }
 
     convertToBuffer = async(reader) => {
@@ -140,7 +182,8 @@ class Upload extends Component{
 
     render(){
         return(
-            <div className="d-flex" id="wrapper">        
+            <div className="d-flex" id="wrapper">    
+            
                 <Sidebar/>
 
                 <div id="page-content-wrapper">
@@ -156,35 +199,40 @@ class Upload extends Component{
                         <Form.Group>
                             <Form.Label>Nomor Sertifikat</Form.Label>
                             <Form.Control type="text" placeholder="Nomor Sertifikat" name="nomor" onChange={this.handleNomor} value={this.state.nomor}/>
-                            {!this.state.isEmptyNomor? <Form.Label className="isiForm">* Nomor Sertifikat Belum Diisi</Form.Label> : null}
+                            {!this.state.isEmptyNomor? <Form.Label className="isiForm">* Nomor Sertifikat Harus Diisi</Form.Label> 
+                            : !this.state.isFormatNomor? <Form.Label className="isiForm">* Format Nomor Sertifikat Tidak Sesuai</Form.Label> : null
+                            }
+                            
                         </Form.Group>
 
                         <Form.Group>
                             <Form.Label>Nama Peserta</Form.Label>
                             <Form.Control type="text" placeholder="Nama Peserta" name="nama" onChange={this.handleNama} value={this.state.nama}/>
-                            {!this.state.isEmptyNama? <Form.Label className="isiForm">* Nama Peserta Belum Diisi</Form.Label> : null}
+                            {!this.state.isEmptyNama? <Form.Label className="isiForm">* Nama Peserta Harus Diisi</Form.Label> : null}
                         </Form.Group>
 
                         <Form.Group>
                             <Form.Label>Nomor Induk Peserta</Form.Label>
                             <Form.Control type="text" placeholder="Nomor Induk Peserta" name="nomorInduk" onChange={this.handleNomorInduk} value={this.state.nomorInduk}/>
-                            {!this.state.isEmptyNomorInduk? <Form.Label className="isiForm">* Nomor Induk Peserta Belum Diisi</Form.Label> : null}
+                            {!this.state.isEmptyNomorInduk? <Form.Label className="isiForm">* Nomor Induk Peserta Harus Diisi</Form.Label> : null}
                         </Form.Group>
 
                         <Form.Group>
                             <Form.Label>Tempat/Tanggal Lahir</Form.Label>
                             <Form.Control type="text" placeholder="Tempat/Tanggal Lahir" onChange={this.handleTtl} value={this.state.ttl}/>
-                            {!this.state.isEmptyTtl? <Form.Label className="isiForm">* Tempat,Tanggal Lahir Belum Diisi</Form.Label> : null}
+                            {!this.state.isEmptyTtl? <Form.Label className="isiForm">* Tempat,Tanggal Lahir Harus Diisi</Form.Label> : null}
                         </Form.Group>
 
                         <Form.Group>
                             <Form.Label>Alamat</Form.Label>
                             <Form.Control type="text" name="bbplk" onChange={this.handleAlamat} value={this.state.alamat} style={{height: '12vh'}}/>
-                            {!this.state.isEmptyAlamat? <Form.Label className="isiForm">* Alamat Belum Diisi</Form.Label> : null}
+                            {!this.state.isEmptyAlamat? <Form.Label className="isiForm">* Alamat Harus Diisi</Form.Label> : null}
                         </Form.Group>
 
                         <Form.Group>
-                            <input type="file" onChange={this.captureFile}/>
+                            <input type="file" accept=".pdf" onChange={this.captureFile}/>
+                            {!this.state.isEmptyChecksum? <Form.Label className="isiForm">* File PDF Harus Diisi</Form.Label> : 
+                            !this.state.isValidFile? <Form.Label className="isiForm">* Format File Harus Pdf</Form.Label> : null}
                         </Form.Group>
 
                         <Form.Group>

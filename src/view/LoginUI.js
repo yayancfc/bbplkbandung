@@ -91,13 +91,13 @@ class Admin extends Component{
                 {this.state.message? <Form.Label className="errorLogin"> * Username atau Password Tidak Ditemukan</Form.Label> : null}
                   <Form.Label>Username</Form.Label>
                   <Form.Control type="text" placeholder="Username" name="username" value={this.state.username} onChange={this.handleUsername}/>
-                  {!this.state.isEmptyUsername? <Form.Label className="isiForm">* Username Belum Diisi</Form.Label> : null}
+                  {!this.state.isEmptyUsername? <Form.Label className="isiForm">* Username Harus Diisi</Form.Label> : null}
                 </Form.Group>
 
                 <Form.Group>
                   <Form.Label>Password</Form.Label>
                   <Form.Control type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.handlePassword}/>
-                  {!this.state.isEmptyPassword? <Form.Label className="isiForm">* Password Belum Diisi</Form.Label> : null}
+                  {!this.state.isEmptyPassword? <Form.Label className="isiForm">* Password Harus Diisi</Form.Label> : null}
                 </Form.Group>
 
                 <Form.Group>

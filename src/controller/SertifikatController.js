@@ -15,7 +15,9 @@ class SertifikatController extends Component{
     }
 
     upload = async (nomor, nama, nomorInduk, ttl, alamat, checksum, buffer, cb) => {
+
         const accounts = await web3.eth.getAccounts();
+
         await ipfs.add(buffer, (err, ipfsHash) =>{
             
             return sertifikatContract.methods.tambahSertifikat(nomor, nama, nomorInduk, ttl, alamat, ipfsHash[0].hash, checksum ).send(
@@ -38,6 +40,7 @@ class SertifikatController extends Component{
     generateChecksum = (e, cb) => {
         const file = e.target.files[0];
         let reader = new window.FileReader();
+//        if(!file) return
         reader.readAsArrayBuffer(file);
         reader.onloadend = () => cb(reader)
     }
@@ -71,20 +74,6 @@ class SertifikatController extends Component{
     }
   
     getPendingBlock = () => {
-        // var subscription = web3.eth.subscribe('pendingTransactions',function(error, result){
-        //     if (!error)
-        //         console.log("result", result);
-        //   })
-        //   .on("data", function(transaction){
-        //       console.log("data",transaction);
-        //   });
-          
-        //   // unsubscribes the subscription
-        //   subscription.unsubscribe(function(error, success){
-        //       if(success)
-        //           console.log('Successfully unsubscribed!');
-        //   });
-
         sertifikatContract.getPastEvents(
             'HashAdded', 
             {
@@ -97,27 +86,33 @@ class SertifikatController extends Component{
     }
 
     subscribeToTxs(address) {
-        return web3.eth.subscribe('pendingTransactions', (err, txHash) => {
-            if (err) {
-                throw('err', err);
-            }
-            console.log('tx', txHash);
+        // return web3.eth.subscribe('pendingTransactions', (err, txHash) => {
+        //     if (err) {
+        //         throw('err', err);
+        //     }
+        //     console.log('tx', txHash);
             
-        })
-        .on("data", function(txHash){
-            return web3.eth.getTransaction(txHash, (err, returnedValue) => {
-                if (err) {
-                    // error handling
-                    console.log('eer', err);
+        // })
+        // .on("data", function(txHash){
+        //     return web3.eth.getTransaction(txHash, (err, returnedValue) => {
+        //         if (err) {
+        //             // error handling
+        //             console.log('eer', err);
                     
-                }
-                if (returnedValue && returnedValue.from === '0xe0d3502baB53337735864D512392bB78444dd4F7') {
-                    console.log('pending', returnedValue);
-                }
+        //         }
+        //         if (returnedValue && returnedValue.from === '0xe0d3502baB53337735864D512392bB78444dd4F7') {
+        //             console.log('pending', returnedValue);
+        //         }
 
-                console.log('ret', returnedValue);
-            })
-        });
+        //         console.log('ret', returnedValue);
+        //     })
+        // });
+
+        web3.utils.toAscii("0xc7d20ded00000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000120000000000000000000000000000000000000000000000000000000000000016000000000000000000000000000000000000000000000000000000000000001a000000000000000000000000000000000000000000000000000000000000001e0000000000000000000000000000000000000000000000000000000000000024000000000000000000000000000000000000000000000000000000000000002a000000000000000000000000000000000000000000000000000000000000000034153580000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000261730000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002617300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000036173780000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003c4b702e204d616e616c616e6775204e6f2e30342052542032342f3038204b65632e2054616e6a756e677369616e672c204b61622e20537562616e672e00000000000000000000000000000000000000000000000000000000000000000000002e516d574d42636e3431313855744e4c4b34656363627944385865356a44784d754d717a34344d3638386a6d615764000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004031663064393631366166323435346634616263373532653036363666393761396433313430383566656230623438313161366365663331336535643338613465").then((response) => {
+            console.log(response)
+        })
+            
+
 
     }
   
