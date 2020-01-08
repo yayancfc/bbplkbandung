@@ -219,7 +219,7 @@ class Upload extends Component{
 
                         <Form.Group>
                             <Form.Label>Tempat/Tanggal Lahir</Form.Label>
-                            <Form.Control type="text" placeholder="Tempat/Tanggal Lahir" onChange={this.handleTtl} value={this.state.ttl}/>
+                            <Form.Control type="text" placeholder="Tempat, Tanggal Lahir" onChange={this.handleTtl} value={this.state.ttl}/>
                             {!this.state.isEmptyTtl? <Form.Label className="isiForm">* Tempat,Tanggal Lahir Harus Diisi</Form.Label> : null}
                         </Form.Group>
 

@@ -3,7 +3,6 @@ import Sidebar from './SidebarUI';
 import {Link} from 'react-router-dom';
 import {Nav, Button} from 'react-bootstrap';
 import controller from '../controller/SertifikatController';
-
 class Sertifikat extends Component{
 
     constructor(props){
@@ -12,7 +11,7 @@ class Sertifikat extends Component{
         logEvents: [],
         currentSlice: 0,
         totalPage: 0,
-        itemPerPage: 9
+        itemPerPage: 10
       }
 
       this.detail = this.detail.bind(this)
@@ -22,7 +21,7 @@ class Sertifikat extends Component{
       window.location.href="/upload"
     }
 
-     componentDidMount(){
+     componentDidMount(){     
 
       if(localStorage.getItem('data')) localStorage.removeItem('data')
       controller.getPastEvents().then((events)=> {
@@ -57,48 +56,55 @@ class Sertifikat extends Component{
                 <Button onClick={this.linkToUpload} className="btn-label-upload"><i className="fa fa-plus-circle fa-lg" aria-hidden="true"></i> Upload Sertifikat</Button>                
             </Nav>
 
-            <div className="row" style={{margin:'1rem'}}>
+            <div className="row table-wrapper" style={{margin:'1rem'}}>
               
+            <div className="table-title">
+                    <div className="row">
+                      <div class="col-sm-6">
+                        <h2><b>DATA SERTIFIKAT</b></h2>
+                      </div>
+                      <div class="col-sm-6">
+                        {/* <a href="#tambahModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Tambah Unit Kerja</span></a> */}
+                                    
+                      </div>
+                    </div>
+                </div>
+    
+                <table className="table table-striped table-hover">
+                    <thead>
+                   
+                        <tr>                          
+                            <th>Nomor</th>
+                            <th>Nomor Sertifikat</th>
+                            <th>Nama</th>
+                            <th>Nomor Peserta</th>
+                            <th>Tempat, Tanggal Lahir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
               {this.state.logEvents.slice(this.state.currentSlice, this.state.currentSlice+this.state.itemPerPage).map((data, index) => {
               return (
-                  <div className="col-xs-12 col-sm-4 col-md-4 col-lg-4" key={index}>
-                  <div className="thumbnail">
-                      <div className="caption">
-                        <div className='col-lg-12'>
-                        </div>
-                        <div className='col-lg-12 well well-add-card'>
-                            <b>{data.returnValues.nomorSertifikat}</b>
-                        </div>
-                        <div className='col-lg-12' style={{height: '60px', position:'relative'}}>
-                            <table>
-                              <tbody>
-
-                              
-                            <tr>
-                           <td className="labelIsi">Nama </td>
-                             <td className="labelSep">:</td>
-                             <td className="labelIsi">{data.returnValues.nama}</td>
-                           </tr>
-
-                           <tr>
-                             <td className="labelIsi">Nomor Induk </td>
-                             <td className="labelSep">:</td>
-                             <td className="labelIsi">{data.returnValues.nomorInduk}</td>
-                           </tr>
-                           </tbody>
-                            </table>
-                        </div>
-                        <Link to={{
+                        <tr>
+                          
+                          <td>{index+1}</td>
+                            <td>{data.returnValues.nomorSertifikat}</td>
+                            <td>{data.returnValues.nama}</td>
+                            <td>{data.returnValues.nomorInduk}</td>
+                            <td>{data.returnValues.ttl}</td>
+                            <td>
+                            <Link to={{
                                  pathname: '/detail'
                                }} onClick={() => this.detail(data)}>
-                        <button type="button"  className="btn btn-primary btn-xs" style={{position: 'absolute', bottom:40, right:30}}>Lihat Detail</button>
-                        </Link>
-                    </div>
-                  </div>
-                </div>
+                             <i className="fa fa-external-link fa-lg" aria-hidden="true"></i>
+                            </Link>
+                            </td>
+                        </tr>
+                    
+          
                   );  
               })}       
-
+                  </tbody>
+                </table>
             </div>
 
             <div className="float-left toEnd">
@@ -112,6 +118,15 @@ class Sertifikat extends Component{
                 
               )}
             )}
+            </div>
+
+            <div className="keterangan">
+              <div style={{fontWeight:'bold', fontSize:'18px'}}>
+              Keterangan Tombol : 
+              </div>
+              <div>
+                <i className="fa fa-external-link fa-lg" aria-hidden="true" style={{marginTop:'1rem'}}> Lihat Detail</i>
+              </div>
             </div>
             
           </div>

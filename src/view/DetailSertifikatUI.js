@@ -83,10 +83,10 @@ class DetailSertifikat extends Component{
 
     render(){
       return (
-        <div className="d-flex" id="wrapper">
+        <div className="d-flex" id="wrapper" >
             
         <Sidebar/>
-        <div id="page-content-wrapper">
+        <div id="page-content-wrapper" >
                     <Nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
                     <div id="navbarSupportedContent" className="justify-content-end">
                         <Button onClick={this.handleBack} className="btn-back"><i className="fa fa-arrow-left fa-lg logo-back" aria-hidden="true" ></i> Kembali</Button>

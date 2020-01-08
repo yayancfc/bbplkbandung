@@ -24,14 +24,14 @@ class Sidebar extends Component{
     render(){
       return (      
         
-        <div className="bg-light border-right" id="sidebar-wrapper">
-          <div className="sidebar-heading">
+        <div id="sidebar-wrapper" style={{backgroundColor: 'rgb(40, 51, 84)'}}>
+          <div className="sidebar-heading" >
             <a href={"/home"}> <img src={bbplk} className="logo"/></a>
           </div>
           <div className="list-group list-group-flush">
-            <Link to="/dashboard" className="list-group-item list-group-item-action bg-light">Dashboard</Link>
-            <Link to="/sertifikat" className="list-group-item list-group-item-action bg-light">Sertifikat</Link>
-            <a href="#" onClick={this.logout} className="list-group-item list-group-item-action bg-light">Logout</a>
+            <Link to="/dashboard" className="list-group-item list-group-item-action" >Dashboard</Link>
+            <Link to="/sertifikat" className="list-group-item list-group-item-action">Sertifikat</Link>
+            <a href="#" onClick={this.logout} className="list-group-item list-group-item-action">Logout</a>
             <hr/>            
           </div>
         </div>
