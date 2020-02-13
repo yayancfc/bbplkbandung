@@ -41,7 +41,7 @@ class VerifikasiDetail extends Component {
             alamat: response[5]
         })
         
-    web3.eth.getBlock(this.state.blockNumber).then((response) => {
+    web3.eth.getBlock(parseInt(this.state.blockNumber)).then((response) => {
             console.log('block', response)
             this.setState({
                 blockHash: response.hash,

@@ -3,6 +3,7 @@ import Sidebar from './SidebarUI';
 import {Nav, Button, Form} from 'react-bootstrap';
 import sha256 from 'crypto-js/sha256';
 import controller from '../controller/SertifikatController';
+import verify from '../controller/VerifikasiController';
 
 
 class Upload extends Component{
@@ -24,7 +25,9 @@ class Upload extends Component{
             isEmptyAlamat: true,
             isFormatNomor: true,
             isValidFile: true,
-            isEmptyChecksum: true
+            isEmptyChecksum: true,
+            isLoading: false,
+            isExists: true
         }
 
         this.handleNama = this.handleNama.bind(this)
@@ -56,7 +59,7 @@ class Upload extends Component{
         const isiAlamat = alamat=='' ? false : true
         const isiTtl = ttl=='' ? false : true
         const isiChecksum = checksum=='' ? false : true
-        
+         
         this.setState({
             isEmptyNomor: isiNomor,
             isEmptyNama: isiNama,
@@ -67,6 +70,10 @@ class Upload extends Component{
             isFormatNomor: true
         })
         if(isiNomorInduk===false && isiNama===false && isiNomor===false && isiAlamat=== false && isiTtl===false && isiChecksum===false){
+            this.setState({
+                isFormatNomor: false
+            })
+            
             console.log('kosong')
         }else if(isiNomor===true && subStrNomor!='STF'){
             this.setState({
@@ -75,7 +82,9 @@ class Upload extends Component{
             
             console.log("nomor Tidak Valid", this.state.isFormatNomor)
         }else if(this.state.isValidFile===true && this.state.isFormatNomor===true){
-                
+            this.setState({
+                isLoading: true
+            })
             console.log("nomor Tidak Valid", this.state.isFormatNomor, this.state.isValidFile)
             controller.upload(nomor, nama, nomorInduk, ttl, alamat, checksum, buffer, (error, transactionHash) => {            
                 if(transactionHash){    
@@ -84,11 +93,16 @@ class Upload extends Component{
                     }, 1500);
                 console.log(transactionHash)
                 }else{
+                    this.setState({
+                        isLoading: false
+                    })
                     console.log(error)
                 }
             })
 
-        }        
+        }
+        
+        
     }
 
     validate = () => {
@@ -182,7 +196,13 @@ class Upload extends Component{
 
     render(){
         return(
-            <div className="d-flex" id="wrapper">    
+            <>
+            {this.state.isLoading &&
+                <>
+            <div className="backdrop"></div> 
+            <aside className="loading">  <div className="loader"></div></aside>
+            </>}
+            <div className="d-flex" id="wrapper" style={{ filter: `blur(${this.state.isLoading ? '2px' : '0px'}`}}>   
             
                 <Sidebar/>
 
@@ -244,6 +264,7 @@ class Upload extends Component{
                     </div>
                 </div>
             </div>
+            </>
         );
     };
 }

@@ -1,21 +1,7 @@
 import web3 from './web3';
 
-const address = '0x34A31f1a2545778e73fb7ac709F476f81B51f215';
+const address = '0xc03BE21e1E5FE6A879A2b3075548fD3Cd03f359A';
 const abi = [
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "blocknumber",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
 	{
 		"constant": true,
 		"inputs": [

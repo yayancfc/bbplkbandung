@@ -11,7 +11,8 @@ class Sertifikat extends Component{
         logEvents: [],
         currentSlice: 0,
         totalPage: 0,
-        itemPerPage: 10
+        itemPerPage: 10,
+        isLoading: false
       }
 
       this.detail = this.detail.bind(this)
@@ -23,6 +24,9 @@ class Sertifikat extends Component{
 
      componentDidMount(){     
 
+      this.setState({
+        isLoading : true
+      })
       if(localStorage.getItem('data')) localStorage.removeItem('data')
       controller.getPastEvents().then((events)=> {
         console.log(events)
@@ -30,7 +34,8 @@ class Sertifikat extends Component{
           this.setState({
             totalPage: Math.ceil(events.length/this.state.itemPerPage),
             // totalPage: events.length < this.state.itemPerPage? 1 : Math.ceil(events.length/this.state.itemPerPage),
-            logEvents: events.reverse()
+            logEvents: events.reverse(),
+            isLoading: false
           })             
         })
      }
@@ -43,7 +48,14 @@ class Sertifikat extends Component{
 
     render(){
       return (
-        <div className="d-flex" id="wrapper">
+          <>
+            {this.state.isLoading &&
+                <>
+            <div className="backdrop"></div> 
+            <aside className="loading">  <div className="loader"></div></aside>
+            </>}
+        
+        <div className="d-flex" id="wrapper" style={{ filter: `blur(${this.state.isLoading ? '2px' : '0px'}`}}>
             
         <Sidebar/>
         
@@ -57,13 +69,15 @@ class Sertifikat extends Component{
             </Nav>
 
             <div className="row table-wrapper" style={{margin:'1rem'}}>
-              
+            <div style={{textAlign:'right', width:'100%', marginBottom:'1rem'}}>
+            {!this.state.isLoading && <span><strong>Jumlah Sertifikat yang sudah di upload : {this.state.logEvents.length}</strong></span>}
+            </div>
             <div className="table-title">
                     <div className="row">
-                      <div class="col-sm-6">
+                      <div className="col-sm-6">
                         <h2><b>DATA SERTIFIKAT</b></h2>
                       </div>
-                      <div class="col-sm-6">
+                      <div className="col-sm-6">
                         {/* <a href="#tambahModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Tambah Unit Kerja</span></a> */}
                                     
                       </div>
@@ -82,9 +96,19 @@ class Sertifikat extends Component{
                         </tr>
                     </thead>
                     <tbody>
+                      
+              {this.state.logEvents.length<1 &&
+                 (
+                <tr>
+                  {!this.state.isLoading &&<td colSpan="5" align="center"><h1 className="kosong">Data Sertifikat Kosong</h1></td>}
+                </tr>
+                )
+              }
+            
               {this.state.logEvents.slice(this.state.currentSlice, this.state.currentSlice+this.state.itemPerPage).map((data, index) => {
+                
               return (
-                        <tr>
+                        <tr key={index}>
                           
                           <td>{index+1}</td>
                             <td>{data.returnValues.nomorSertifikat}</td>
@@ -102,7 +126,9 @@ class Sertifikat extends Component{
                     
           
                   );  
-              })}       
+                      
+              })}
+                     
                   </tbody>
                 </table>
             </div>
@@ -131,6 +157,7 @@ class Sertifikat extends Component{
             
           </div>
         </div>
+        </>
       );
   }
  

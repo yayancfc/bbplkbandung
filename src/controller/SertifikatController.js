@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import sertifikatContract from '../service/Sertifikat';
 import CryptoJS from 'crypto-js';
-import web3 from '../service/web3';
 import ipfs from '../service/ipfs';
+import web3 from '../service/web3';
 
 class SertifikatController extends Component{
+
+    constructor(props){
+        super(props)
+        this.state = {
+            accounts : ''
+        }
+    }
     getPastEvents = () => {
         return sertifikatContract.getPastEvents(
             'HashAdded', 
@@ -17,6 +24,8 @@ class SertifikatController extends Component{
     upload = async (nomor, nama, nomorInduk, ttl, alamat, checksum, buffer, cb) => {
 
         const accounts = await web3.eth.getAccounts();
+        
+        console.log('accounts',accounts);        
 
         await ipfs.add(buffer, (err, ipfsHash) =>{
             

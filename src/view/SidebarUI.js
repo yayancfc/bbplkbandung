@@ -26,7 +26,7 @@ class Sidebar extends Component{
         
         <div id="sidebar-wrapper" style={{backgroundColor: 'rgb(40, 51, 84)'}}>
           <div className="sidebar-heading" >
-            <a href={"/home"}> <img src={bbplk} className="logo"/></a>
+            <a href={"/home"}> <img src={bbplk} className="logo" style={{filter:'brightness(10)'}}/></a>
           </div>
           <div className="list-group list-group-flush">
             <Link to="/dashboard" className="list-group-item list-group-item-action" >Dashboard</Link>
