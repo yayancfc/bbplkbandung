@@ -27,7 +27,7 @@ class Upload extends Component{
             isValidFile: true,
             isEmptyChecksum: true,
             isLoading: false,
-            isExists: true
+            isFile: false
         }
 
         this.handleNama = this.handleNama.bind(this)
@@ -39,6 +39,22 @@ class Upload extends Component{
 
     handleBack(e){
         window.location.href="/sertifikat"
+    }
+
+    
+    cekSertifikat = (checksum) => {
+        verify.verifyByChecksum(checksum).then((response) => {
+            console.log(response[6], response[6]==0);
+            
+            if(response[6]!=0){
+                this.setState({
+                isFile: true
+            }) 
+            
+        }
+            
+        })
+        
     }
 
     handleUpload = async (e) => {
@@ -69,10 +85,10 @@ class Upload extends Component{
             isEmptyChecksum: isiChecksum,
             isFormatNomor: true
         })
-        if(isiNomorInduk===false && isiNama===false && isiNomor===false && isiAlamat=== false && isiTtl===false && isiChecksum===false){
-            this.setState({
-                isFormatNomor: false
-            })
+        if(isiNomorInduk===false || isiNama===false || isiNomor===false || isiAlamat=== false || isiTtl===false || isiChecksum===false){
+            // this.setState({
+            //     isFormatNomor: false
+            // })
             
             console.log('kosong')
         }else if(isiNomor===true && subStrNomor!='STF'){
@@ -81,11 +97,19 @@ class Upload extends Component{
             })
             
             console.log("nomor Tidak Valid", this.state.isFormatNomor)
-        }else if(this.state.isValidFile===true && this.state.isFormatNomor===true){
+        }else if(this.state.isFormatNomor===true && this.state.isEmptyChecksum===true){
             this.setState({
                 isLoading: true
             })
-            console.log("nomor Tidak Valid", this.state.isFormatNomor, this.state.isValidFile)
+            this.cekSertifikat(checksum)
+            console.log(this.state.isFile);
+            
+            if(!this.state.isFile){
+                this.setState({
+                    isLoading: false
+                })    
+            }else{
+            console.log("nomor Tidak Valid 2", this.state.isFormatNomor, this.state.isValidFile)
             controller.upload(nomor, nama, nomorInduk, ttl, alamat, checksum, buffer, (error, transactionHash) => {            
                 if(transactionHash){    
                 setTimeout(() => {
@@ -99,6 +123,8 @@ class Upload extends Component{
                     console.log(error)
                 }
             })
+
+            }
 
         }
         
@@ -228,31 +254,32 @@ class Upload extends Component{
                         <Form.Group>
                             <Form.Label>Nama Peserta</Form.Label>
                             <Form.Control type="text" placeholder="Nama Peserta" name="nama" onChange={this.handleNama} value={this.state.nama}/>
-                            {!this.state.isEmptyNama? <Form.Label className="isiForm">* Nama Peserta Harus Diisi</Form.Label> : null}
+                            {!this.state.isEmptyNama && <Form.Label className="isiForm">* Nama Peserta Harus Diisi</Form.Label>}
                         </Form.Group>
 
                         <Form.Group>
                             <Form.Label>Nomor Induk Peserta</Form.Label>
                             <Form.Control type="text" placeholder="Nomor Induk Peserta" name="nomorInduk" onChange={this.handleNomorInduk} value={this.state.nomorInduk}/>
-                            {!this.state.isEmptyNomorInduk? <Form.Label className="isiForm">* Nomor Induk Peserta Harus Diisi</Form.Label> : null}
+                            {!this.state.isEmptyNomorInduk && <Form.Label className="isiForm">* Nomor Induk Peserta Harus Diisi</Form.Label> }
                         </Form.Group>
 
                         <Form.Group>
                             <Form.Label>Tempat/Tanggal Lahir</Form.Label>
                             <Form.Control type="text" placeholder="Tempat, Tanggal Lahir" onChange={this.handleTtl} value={this.state.ttl}/>
-                            {!this.state.isEmptyTtl? <Form.Label className="isiForm">* Tempat,Tanggal Lahir Harus Diisi</Form.Label> : null}
+                            {!this.state.isEmptyTtl && <Form.Label className="isiForm">* Tempat,Tanggal Lahir Harus Diisi</Form.Label>}
                         </Form.Group>
 
                         <Form.Group>
                             <Form.Label>Alamat</Form.Label>
                             <Form.Control type="text" name="bbplk" onChange={this.handleAlamat} value={this.state.alamat} style={{height: '12vh'}}/>
-                            {!this.state.isEmptyAlamat? <Form.Label className="isiForm">* Alamat Harus Diisi</Form.Label> : null}
+                            {!this.state.isEmptyAlamat && <Form.Label className="isiForm">* Alamat Harus Diisi</Form.Label>}
                         </Form.Group>
 
                         <Form.Group>
                             <input type="file" accept=".pdf" onChange={this.captureFile}/>
-                            {!this.state.isEmptyChecksum? <Form.Label className="isiForm">* File PDF Harus Diisi</Form.Label> : 
-                            !this.state.isValidFile? <Form.Label className="isiForm">* Format File Harus Pdf</Form.Label> : null}
+                            {!this.state.isEmptyChecksum&& <Form.Label className="isiForm">* File PDF Harus Diisi</Form.Label>}
+                            {!this.state.isValidFile && <Form.Label className="isiForm">* Format File Harus Pdf</Form.Label>}
+                            {this.state.isFile   && <Form.Label className="isiForm">* Sertifikat Sudah Pernah Di Upload</Form.Label>}
                         </Form.Group>
 
                         <Form.Group>

@@ -122,10 +122,17 @@ class Verifikasi extends Component {
     controller.lihatSertifikat(hash)
   }
 
+
   render(){ 
     return (
-    
-      <div className=" border-right ver" id="sidebar-wrapper">
+      <>
+      {this.state.isLoading &&
+          <>
+      <div className="backdrop"></div> 
+      <aside className="loading">  <div className="loader"></div></aside>
+      </>}
+
+      <div className=" border-right ver" id="sidebar-wrapper" style={{ filter: `blur(${this.state.isLoading ? '2px' : '0px'}`}}>
         
         <Nav className="navbar navbar-expand-lg">                                              
           {/* <div className="sidebar-heading float-right">
@@ -164,18 +171,18 @@ class Verifikasi extends Component {
 
           <div className="container">
             <form>    
-                  <input id="upload" type="file" onChange={this.handleVerifyBYChecksum}/>
+                  <input id="upload" type="file" accept=".pdf" onChange={this.handleVerifyBYChecksum}/>
                   <a href="#" id="upload_link" onClick={this.handleOpenUpload} style={{marginLeft:'2.5rem'}}>
                     <u>Upload File Sertifikat</u></a>​ ( Verifikasi Menggunakan File Sertifikat )
             </form>
           </div>
   
   
-          {this.state.isLoading? 
+          {/* {this.state.isLoading? 
           <div className="form-row justify-content-md-center valid-form-loading">
             <Loading className="asd"/>
           </div>
-           : null} 
+           : null}  */}
 
             <Modal 
               size="lg"
@@ -189,7 +196,7 @@ class Verifikasi extends Component {
               <form>
             
             {!this.state.nama==""?
-            <div className="valid-form ">
+             <div className="form-row justify-content-md-center valid-form">
               <label className="valid ">Sertifikat Valid</label><i className="fa fa-check-circle fa-2x logo-ver"></i>
             <div className="form-group has-feedback row">
             <div className="input-group col-md-6">
@@ -249,6 +256,8 @@ class Verifikasi extends Component {
             </Modal>
         </div>
       </div>
+
+      </>
     );
   }
 }
