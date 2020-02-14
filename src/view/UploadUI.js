@@ -49,23 +49,15 @@ class Upload extends Component{
 
     
     cekSertifikat = (checksum) => {
-        verify.verifyByChecksum(checksum).then((response) => {
-            console.log(response[6], response[6]==0);
-            
-                response[6]!=0 &&
-                    this.setState({
-                    isFile: true
-                }) 
-            
-        })
+        
+        
         
     }
 
     handleUpload = async (e) => {
         e.preventDefault();
         console.log(this.state.isFile);
-        
-        
+                
         const nomor = this.state.nomor.toUpperCase();
         const nama = this.state.nama;
         const nomorInduk = this.state.nomorInduk;
@@ -103,35 +95,43 @@ class Upload extends Component{
             })
             
             console.log("nomor Tidak Valid", this.state.isFormatNomor)
-        }else{
-            
+        }else{            
             this.setState({
                 isLoading: true
             })
-            this.cekSertifikat(checksum)            
-            if(!this.state.isFile){
-                
-                        this.setState({
-                    isLoading: false
-                })    
-            }else{
+            
+            verify.verifyByChecksum(checksum).then((response) => { 
+                const cek = response[2]
+                if(cek==''){
+                    this.setState({
+                        isFile: false
+                    })         
+                    console.log("nomor Tidak Valid 2", this.state.isFormatNomor, this.state.isValidFile)
+                    controller.upload(nomor, nama, nomorInduk, ttl, alamat, checksum, buffer, (error, transactionHash) => {            
+                        if(transactionHash){    
+                        setTimeout(() => {
+                                window.location.href = "/sertifikat"
+                            }, 1500);
+                        console.log(transactionHash)
+                        }else{
+                            this.setState({
+                                isLoading: false
+                            })
+                            console.log(error)
+                        }
+                    })
+                }else{
+                    this.setState({
+                        isLoading: false,
+                        isFile: true
+                    }) 
+                }
                     
-                console.log("nomor Tidak Valid 2", this.state.isFormatNomor, this.state.isValidFile)
-                controller.upload(nomor, nama, nomorInduk, ttl, alamat, checksum, buffer, (error, transactionHash) => {            
-                    if(transactionHash){    
-                    setTimeout(() => {
-                            window.location.href = "/sertifikat"
-                        }, 1500);
-                    console.log(transactionHash)
-                    }else{
-                        this.setState({
-                            isLoading: false
-                        })
-                        console.log(error)
-                    }
-                })
+                
+            })
+                  
 
-            }
+            
 
         }
         
@@ -285,8 +285,8 @@ class Upload extends Component{
                         <Form.Group>
                             <input type="file" accept=".pdf" onChange={this.captureFile}/>
                             {!this.state.isEmptyChecksum&& <Form.Label className="isiForm">* File PDF Harus Diisi</Form.Label>}
-                            {!this.state.isValidFile && <Form.Label className="isiForm">* Format File Harus Pdf</Form.Label>}
-                            {this.state.isFile && <Form.Label className="isiForm">* Sertifikat Sudah Pernah Di Upload</Form.Label>}
+                            {/* {!this.state.isValidFile && <Form.Label className="isiForm">* Format File Harus Pdf</Form.Label>} */}
+                            {this.state.isFile && <Form.Label className="isiForm">* Sertifikat sudah di Upload</Form.Label>}
                         </Form.Group>
 
                         <Form.Group>
