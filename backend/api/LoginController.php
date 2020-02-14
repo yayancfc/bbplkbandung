@@ -4,11 +4,11 @@
             //$IS_PRODUCTION = ($_SERVER['SERVER_ADDR'] != '127.0.0.1');
             $IS_PRODUCTION = ($_SERVER['SERVER_ADDR'] == 'localhost');
             
-            $API_URL = ($IS_PRODUCTION) ? 'https://sertifikat.victim.id' : 'http://localhost:3000';
+            $API_URL = ($IS_PRODUCTION) ? 'https://sertifikat.bbplkbandung.com' : 'http://localhost:3000';
             $HOST = ($IS_PRODUCTION) ? 'localhost' : 'localhost';
-            $USER = ($IS_PRODUCTION) ? 'victimid_bbplkbandung' : 'root';
+            $USER = ($IS_PRODUCTION) ? 'bbplkban_admin' : 'root';
             $PASS = ($IS_PRODUCTION) ? 'bbplkbandung' : '';
-            $DB = ($IS_PRODUCTION) ? 'victimid_bbplkbandung' : 'bbplkbandung';
+            $DB = ($IS_PRODUCTION) ? 'bbplkban_sertifikat' : 'bbplkbandung';
         
             header('Access-Control-Allow-Origin:' . $API_URL);
             header('Access-Control-Allow-Credentials: true');

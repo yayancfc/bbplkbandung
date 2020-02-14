@@ -32,7 +32,13 @@ class Upload extends Component{
 
         this.handleNama = this.handleNama.bind(this)
         this.handleNomor = this.handleNomor.bind(this)
+        this.handleAlamat = this.handleAlamat.bind(this)
+        this.handleNomorInduk = this.handleNomorInduk.bind(this)
+        this.handleTtl = this.handleTtl.bind(this)
+        this.handle = this.handleAlamat.bind(this)        
         this.captureFile = this.captureFile.bind(this)
+        this.handleUpload = this.handleUpload.bind(this)
+        this.cekSertifikat = this.cekSertifikat.bind(this)
 
 
     }
@@ -46,12 +52,10 @@ class Upload extends Component{
         verify.verifyByChecksum(checksum).then((response) => {
             console.log(response[6], response[6]==0);
             
-            if(response[6]!=0){
-                this.setState({
-                isFile: true
-            }) 
-            
-        }
+                response[6]!=0 &&
+                    this.setState({
+                    isFile: true
+                }) 
             
         })
         
@@ -59,6 +63,8 @@ class Upload extends Component{
 
     handleUpload = async (e) => {
         e.preventDefault();
+        console.log(this.state.isFile);
+        
         
         const nomor = this.state.nomor.toUpperCase();
         const nama = this.state.nama;
@@ -97,32 +103,33 @@ class Upload extends Component{
             })
             
             console.log("nomor Tidak Valid", this.state.isFormatNomor)
-        }else if(this.state.isFormatNomor===true && this.state.isEmptyChecksum===true){
+        }else{
+            
             this.setState({
                 isLoading: true
             })
-            this.cekSertifikat(checksum)
-            console.log(this.state.isFile);
-            
+            this.cekSertifikat(checksum)            
             if(!this.state.isFile){
-                this.setState({
+                
+                        this.setState({
                     isLoading: false
                 })    
             }else{
-            console.log("nomor Tidak Valid 2", this.state.isFormatNomor, this.state.isValidFile)
-            controller.upload(nomor, nama, nomorInduk, ttl, alamat, checksum, buffer, (error, transactionHash) => {            
-                if(transactionHash){    
-                setTimeout(() => {
-                        window.location.href = "/sertifikat"
-                    }, 1500);
-                console.log(transactionHash)
-                }else{
-                    this.setState({
-                        isLoading: false
-                    })
-                    console.log(error)
-                }
-            })
+                    
+                console.log("nomor Tidak Valid 2", this.state.isFormatNomor, this.state.isValidFile)
+                controller.upload(nomor, nama, nomorInduk, ttl, alamat, checksum, buffer, (error, transactionHash) => {            
+                    if(transactionHash){    
+                    setTimeout(() => {
+                            window.location.href = "/sertifikat"
+                        }, 1500);
+                    console.log(transactionHash)
+                    }else{
+                        this.setState({
+                            isLoading: false
+                        })
+                        console.log(error)
+                    }
+                })
 
             }
 
@@ -245,8 +252,8 @@ class Upload extends Component{
                         <Form.Group>
                             <Form.Label>Nomor Sertifikat</Form.Label>
                             <Form.Control type="text" placeholder="Nomor Sertifikat" name="nomor" onChange={this.handleNomor} value={this.state.nomor}/>
-                            {!this.state.isEmptyNomor? <Form.Label className="isiForm">* Nomor Sertifikat Harus Diisi</Form.Label> 
-                            : !this.state.isFormatNomor? <Form.Label className="isiForm">* Format Nomor Sertifikat Tidak Sesuai</Form.Label> : null
+                            {!this.state.isEmptyNomor&& <Form.Label className="isiForm">* Nomor Sertifikat Harus Diisi</Form.Label> }
+                            {!this.state.isFormatNomor&& <Form.Label className="isiForm">* Format Nomor Sertifikat Tidak Sesuai</Form.Label> 
                             }
                             
                         </Form.Group>
@@ -279,7 +286,7 @@ class Upload extends Component{
                             <input type="file" accept=".pdf" onChange={this.captureFile}/>
                             {!this.state.isEmptyChecksum&& <Form.Label className="isiForm">* File PDF Harus Diisi</Form.Label>}
                             {!this.state.isValidFile && <Form.Label className="isiForm">* Format File Harus Pdf</Form.Label>}
-                            {this.state.isFile   && <Form.Label className="isiForm">* Sertifikat Sudah Pernah Di Upload</Form.Label>}
+                            {this.state.isFile && <Form.Label className="isiForm">* Sertifikat Sudah Pernah Di Upload</Form.Label>}
                         </Form.Group>
 
                         <Form.Group>
